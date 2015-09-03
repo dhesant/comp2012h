@@ -9,8 +9,7 @@ using namespace std;
 const int KILL_COUNT = 9;
 
 // Makes a string consisting of only '_' with same length
-string make_display_word(string s)
-{
+string make_display_word(string s) {
   string t = "";
   for (int i = 0; i < s.size(); i++)
     t += '_';
@@ -18,8 +17,7 @@ string make_display_word(string s)
 }
 
 // return true if char ch is in string s
-bool ch_in_string(char ch, string s)
-{
+bool ch_in_string(char ch, string s) {
   for (int i=0; i < s.size(); i++)
     if (ch == s[i])
       return true;
@@ -28,16 +26,14 @@ bool ch_in_string(char ch, string s)
 
 // enter ch into display at position where it appears 
 // in secret
-void enter_char(char ch, string secret, string &display)
-{
+void enter_char(char ch, string secret, string &display) {
   for (int i = 0; i < secret.size(); i++) {
     if (secret[i] == ch)
       display[i] = ch;
   }
 }
 
-int main()
-{
+int main() {
   // The word to guess
   string secret_word = "evaluation";
   // How many wrong guesses
@@ -65,21 +61,38 @@ int main()
     char ch;
     cin >> ch;
     ch = tolower(ch);
-    if (!isalpha(ch)) {
-      cout << "Only letters!\n\n";
-    } else {
+
+    if(ch == '!') {
+      cout << "Guess the word: ";
+      string guess;
+      cin >> guess;
+      for (int i = 0; i < guess.size(); i++) { // Convert guess to lower casen
+	guess[i] = tolower(guess[i]);
+      }
+
+      if (guess == secret_word) {
+	display_word = secret_word;
+	total_count++;
+      }
+    }
+    else if (isalpha(ch)) {
       if (ch_in_string(ch, already_guessed)) {
 	cout << "You already guessed '" << ch << "'\n";
-      } else {
+      }
+      else {
 	already_guessed += ch;
 	if (ch_in_string(ch, secret_word)) {
 	  enter_char(ch, secret_word, display_word);
-	} else {
+	}
+	else {
 	  cout << "Sorry, wrong guess!\n";
 	  wrong_count++;
 	}
-	total_count++;
       }
+      total_count++;
+    }
+    else {
+      cout << "Only letters!\n\n";
     }
   }
   return 0;
