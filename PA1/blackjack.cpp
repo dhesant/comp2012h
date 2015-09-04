@@ -107,17 +107,22 @@ public:
   }
     
   void playRound() {
-    std::cout << "Dealer : * " << dealer.getHand() << "\nPlayer : " << player.getHand() << "\nDraw? (Y/N) ";
     char ch;
+    
+    std::cout << "Dealer : * " << dealer.getHand() << "\nPlayer : " << player.getHand() << "\nDraw? (Y/N) ";
+
     while (ch != 'y' || ch != 'n') {
       std::cin >> ch;
       ch = tolower(ch);
+
       if (ch == 'y') {
 	player.drawCard();
 	playRound();
+	break;
       }
-      else {
+      else if (ch == 'n') {
 	finishRound();
+	break;
       }
     }
   }
@@ -146,13 +151,24 @@ public:
 };
 
 int main() {
+  Game game;
+  char ch;
+
   srand(time(0));  // initialize random number generator
 
-  Card test_card;
-  std::cout << "Debug: " << test_card.getString() << std::endl;
-
-  Game game;
-  game.newGame();
-  
-
+  game.newGame(); // start new game
+ 
+  while (ch != 'y' || ch != 'n') { // Wait for valid input
+    std::cout << "Again? (Y/N): ";
+    std::cin >> ch;
+    ch = tolower(ch);
+    if (ch == 'y') {
+      Game game; // Start new game instance
+      game.newGame(); // Start new game
+    }
+    else if (ch == 'n') {
+      break; // Exit loop
+    }
+  }
+  return 0;
 }
