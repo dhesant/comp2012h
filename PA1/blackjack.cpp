@@ -3,6 +3,7 @@
 #include <ctime> 
 #include <cstring>
 #include <vector>
+#include <limits>
 
 // Card lookup values
 const std::string number_lookup[] = { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
@@ -121,6 +122,8 @@ public:
     std::cin >> player_bet;
 
     while (player_cash < player_bet || player_bet == 0) { // Ensure valid bet amount
+      std::cin.clear(); // Fix looping error with invalid input
+      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear read buffer
       std::cout << "Invalid bet. Round bet: ";
       std::cin >> player_bet;
     }
