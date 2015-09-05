@@ -4,21 +4,32 @@
 #include <cstring>
 #include <vector>
 
+// Card lookup values
 const std::string number_lookup[] = { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
 const std::string suit_lookup[] = {"D", "C", "H", "S"};
 const int face_value[] = { 11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10};
 
-#define INITIAL_CASH 100
+// Test case constants
+const int test_case_number[] = {1, 1, 2, 6, 4, 8, 9, 1, 3, 2, 3, 10};
+const int test_case_suit[] = {0, 2, 1, 0, 1, 0, 2, 1, 0, 3, 2, 0};
+bool test_case = false;
+int test_case_int = 0;
 
 class Card {
-private:
+public:
   int number;
   int suit;
 
-public:
   Card() {
-    number = (double) rand()/RAND_MAX*13;
-    suit = (double) rand()/RAND_MAX*4;
+    if (test_case) {
+      number = test_case_number[test_case_int];
+      suit = test_case_suit[test_case_int];
+      test_case_int++;
+    }
+    else {
+      number = (double) rand()/RAND_MAX*13;
+      suit = (double) rand()/RAND_MAX*4;
+    }
   }
     
   Card(int n, int s) {
@@ -36,99 +47,162 @@ public:
   int getValue() {
     return face_value[number];
   }
-  
-  bool isAce() {
-    return (number == 0);
-  }  
 };
 
 class Player {
 public:
-  int hasAce;
   std::vector<Card> hand;
+  int hand_count;
 
   Player() {
-    hasAce = 0;
+    hand_count = 0;
   }
 
   int getScore() {
-    int score;
-
+    int score = 0;
+    int hasAce = 0;
     for (std::vector<Card>::iterator it = hand.begin() ; it != hand.end(); ++it) {
-      if (it->isAce()) {
-	hasAce = true;
+      if (it->number == 0) {
+	hasAce++;
       }
       score += it->getValue();
     }
 
     while (hasAce && score > 21) {
+      hasAce--;
       score -= 10;
     }
     return score;
   }
 
-  std::string getHand() {
+  std::string getHand(bool ignoreFirst) {
     std::string s = "";
     for (std::vector<Card>::iterator it = hand.begin() ; it != hand.end(); ++it) {
-      s.append(it->getString());
-      s.append(" ");
+      if (!ignoreFirst) {
+	s.append(it->getString());
+	s.append(" ");
+      }
+      ignoreFirst = false;
     }
-    std::cout << s << std::endl;
     return s;
   }
 
   void drawCard() {
     Card card;
-    if (card.isAce()) {
-      hasAce++;
-    }
     hand.push_back(card);
+    hand_count++;
+  }
+
+  bool isSplit() {
+    std::vector<Card>::iterator it = hand.begin();
+    int i = it->number;
+    it++;
+    return (i == it->number);
   }
 };
 
 
 class Game {
-public:
+public:  
+  int player_bet;
   int player_cash;
-  Player player, dealer;
+
+  Game() {
+    player_cash = 100;
+  }
 
   void newGame() {
-    player_cash = 100;
-    int player_bet;
+    Player player, dealer;
+    char ch;
 
-    std::cout << "Player: $" << player_cash << "\nPay for this round: "; // Get player bet amount and deduct it
+    player_bet = 0; // Reset player bet to known value
+
+    std::cout << "Player: $" << player_cash << "\nRound bet: "; // Get player bet amount and deduct it
     std::cin >> player_bet;
+
+    while (player_cash < player_bet || player_bet == 0) { // Ensure valid bet amount
+      std::cout << "Invalid bet. Round bet: ";
+      std::cin >> player_bet;
+    }
+
     player_cash -= player_bet;
+
+    /*
+    std::cout << "Test case? (y/n): ";
+    while (true) {
+      std::cin >> ch;
+      ch = tolower(ch);
+
+      if (ch == 'y') {
+	test_case = true;
+	break;
+      }
+      else if (ch == 'n') {
+	break;
+      }
+    }
+    */
 
     player.drawCard(); // Draw cards for player and dealer
     player.drawCard();
     dealer.drawCard();
-    playRound();
+    dealer.drawCard();
+    
+    playRound(player, dealer);
   }
     
-  void playRound() {
+  void playRound(Player player, Player dealer) {
     char ch;
     
-    std::cout << "Dealer : * " << dealer.getHand() << "\nPlayer : " << player.getHand() << "\nDraw? (Y/N) ";
+    if (player.getScore() >= 21 || player.hand_count >= 5) { // End game if player gets 21 or over
+      endGame(player, dealer);
+      return;
+    }
 
-    while (ch != 'y' || ch != 'n') {
+    std::cout << "Dealer : * " << dealer.getHand(true) << "\nPlayer : " << player.getHand(false) << "\nDraw? (y/n) ";
+
+    while (true) {
       std::cin >> ch;
       ch = tolower(ch);
 
       if (ch == 'y') {
 	player.drawCard();
-	playRound();
+	playRound(player, dealer);
 	break;
       }
       else if (ch == 'n') {
-	finishRound();
+	endGame(player, dealer);
 	break;
       }
     }
   }
 
-  void finishRound() {
-    std::cout << "Debug: finish_round" << std::endl;
+  void endGame(Player player, Player dealer) {
+    while (dealer.getScore() < 17 && dealer.hand_count < 5) {
+      dealer.drawCard();
+    }
+  
+    std::cout << "Dealer : " << dealer.getHand(false) << "\nPlayer : " << player.getHand(false) // Display hands
+	      << "\nDealer: " << dealer.getScore() << "\tPlayer: "  << player.getScore() << "\n"; // Display points
+  
+    switch (checkWin(player, dealer)) {
+      case 0:
+	std::cout << "Dealer wins!\n";
+	break;
+      case 1:
+	std::cout << "Tie game!\n";
+	player_cash += player_bet;
+	break;
+      case 2:
+	std::cout << "Player Wins!\n";
+	if (player.getScore() == 21) {
+	  player_cash += player_bet*2.5;
+	}
+	else {
+	  player_cash += player_bet*2;
+	}
+	break;
+      }
   }
     
   int checkWin(Player player, Player dealer) { // 0 = loss, 1 = tie, 2 = win
@@ -158,12 +232,15 @@ int main() {
 
   game.newGame(); // start new game
  
-  while (ch != 'y' || ch != 'n') { // Wait for valid input
-    std::cout << "Again? (Y/N): ";
+  while (true) { // Wait for valid input
+    if (game.player_cash <= 0) { // Make sure the player has cash to continue playing
+      std::cout << "Sorry, You have no more money left.\n";
+      break;
+    }
+    std::cout << "Again? (y/n): ";
     std::cin >> ch;
     ch = tolower(ch);
     if (ch == 'y') {
-      Game game; // Start new game instance
       game.newGame(); // Start new game
     }
     else if (ch == 'n') {
