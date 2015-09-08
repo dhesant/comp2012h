@@ -22,7 +22,7 @@ public:
   int suit;
 
   Card() {
-    if (test_case) {
+    if (test_case && test_case_int < 12) {
       number = test_case_number[test_case_int];
       suit = test_case_suit[test_case_int];
       test_case_int++;
@@ -50,12 +50,12 @@ public:
   }
 };
 
-class Player {
+class Hand {
 public:
   std::vector<Card> hand;
   int hand_count;
 
-  Player() {
+  Hand() {
     hand_count = 0;
   }
 
@@ -94,14 +94,96 @@ public:
     hand_count++;
   }
 
-  bool isSplit() {
-    std::vector<Card>::iterator it = hand.begin();
-    int i = it->number;
-    it++;
-    return (i == it->number);
+  bool isDoubles() {
+    if (hand_count > 0) {
+      std::vector<Card>::iterator it = hand.begin();
+      int i = it->number;
+      it++;
+      return (i == it->number);
+    }
+    else {
+      return false;
+    }
   }
 };
 
+class Player {
+public:
+  Hand hand;
+  Hand split;
+  Hand split2;
+  Hand split3;  
+  int splitLevel;
+
+  Player() {
+    splitLevel = 0;
+  }
+  
+  void checkSplit() {
+    if (hand.isDoubles() && askSplit()) {
+      splitHandler(hand, split);
+      splitLevel = 1;
+      if (split.isDoubles() && askSplit()) {
+	splitHandler(split, split2);
+	splitLevel = 2;
+	if (split2.isDoubles() && askSplit()) {
+	  splitHandler(split2, split3);
+	  splitLevel = 3;
+	}
+      }
+    }
+  }
+
+  bool askSplit() {
+    if (splitLevel < 1) {
+      std::cout << "Split? (y/n): ";
+    }
+    else {
+      std::cout << "Split again? (y/n): ";
+    }
+
+    char ch;
+    while (true) { // Loop input until valid response
+      std::cin >> ch;
+      ch = tolower(ch);
+      if (ch == 'y') {
+	return true;
+      }
+      else if (ch == 'n') {
+	return false;
+      }
+    }
+  }
+  
+  void splitHandler(Hand& h1, Hand& h2) {
+    std::vector<Card>::iterator it = h1.hand.end();
+    it--; // Get last card
+
+    Card card (it->number, it-> suit);
+
+    std::cout << card.number << std::endl;
+    std::cout << card.suit << std::endl;
+
+    h2.hand.push_back(card); // Push new card to new hand, and delete from old hand
+    h1.hand.pop_back();
+
+    h1.drawCard(); // Draw new cards for both split hands
+    h2.drawCard();
+  }
+  
+  void printHand() {
+    std::cout << "Player : " << hand.getHand(false) << "\n";
+    if (splitLevel >= 1) {
+      std::cout << "Split : " << split.getHand(false) << "\n";
+    }
+    if (splitLevel >= 2) {
+      std::cout << "Split 2 : " << split2.getHand(false) << "\n";
+    }
+    if (splitLevel >= 3) {
+      std::cout << "Split 3 : " << split3.getHand(false) << "\n";    
+    }    
+  }
+};
 
 class Game {
 public:  
@@ -113,7 +195,8 @@ public:
   }
 
   void newGame() {
-    Player player, dealer;
+    Player player;
+    Hand dealer;
     char ch;
 
     player_bet = 0; // Reset player bet to known value
@@ -130,7 +213,6 @@ public:
 
     player_cash -= player_bet;
 
-    /*
     std::cout << "Test case? (y/n): ";
     while (true) {
       std::cin >> ch;
@@ -144,32 +226,34 @@ public:
 	break;
       }
     }
-    */
 
-    player.drawCard(); // Draw cards for player and dealer
-    player.drawCard();
+    player.hand.drawCard(); // Draw cards for player and dealer
+    player.hand.drawCard();
     dealer.drawCard();
     dealer.drawCard();
-    
+
+    player.checkSplit();
     playRound(player, dealer);
   }
-    
-  void playRound(Player player, Player dealer) {
+
+  void playRound(Player player, Hand dealer) {
     char ch;
     
-    if (player.getScore() >= 21 || player.hand_count >= 5) { // End game if player gets 21 or over
+    if (player.hand.getScore() >= 21 || player.hand.hand_count >= 5) { // End game if player gets 21 or over
       endGame(player, dealer);
       return;
     }
 
-    std::cout << "Dealer : * " << dealer.getHand(true) << "\nPlayer : " << player.getHand(false) << "\nDraw? (y/n) ";
+    std::cout << "Dealer : * " << dealer.getHand(true) << "\n";
+    player.printHand();
+    std::cout << "Draw? (y/n) ";
 
     while (true) {
       std::cin >> ch;
       ch = tolower(ch);
 
       if (ch == 'y') {
-	player.drawCard();
+	player.hand.drawCard();
 	playRound(player, dealer);
 	break;
       }
@@ -180,15 +264,16 @@ public:
     }
   }
 
-  void endGame(Player player, Player dealer) {
+  void endGame(Player player, Hand dealer) {
+    
     while (dealer.getScore() < 17 && dealer.hand_count < 5) {
       dealer.drawCard();
     }
   
-    std::cout << "Dealer : " << dealer.getHand(false) << "\nPlayer : " << player.getHand(false) // Display hands
-	      << "\nDealer: " << dealer.getScore() << "\tPlayer: "  << player.getScore() << "\n"; // Display points
+    std::cout << "Dealer : " << dealer.getHand(false) << "\nPlayer : " << player.hand.getHand(false) // Display hands
+	      << "\nDealer: " << dealer.getScore() << "\tPlayer: "  << player.hand.getScore() << "\n"; // Display points
   
-    switch (checkWin(player, dealer)) {
+    switch (checkWin(player.hand, dealer)) {
       case 0:
 	std::cout << "Dealer wins!\n";
 	break;
@@ -198,7 +283,7 @@ public:
 	break;
       case 2:
 	std::cout << "Player Wins!\n";
-	if (player.getScore() == 21) {
+	if (player.hand.getScore() == 21) {
 	  player_cash += player_bet*2.5;
 	}
 	else {
@@ -208,7 +293,7 @@ public:
       }
   }
     
-  int checkWin(Player player, Player dealer) { // 0 = loss, 1 = tie, 2 = win
+  int checkWin(Hand player, Hand dealer) { // 0 = loss, 1 = tie, 2 = win
     if (player.getScore() > 21) {
       return 0;
     }
