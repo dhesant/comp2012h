@@ -11,10 +11,9 @@ const std::string suit_lookup[] = {"D", "C", "H", "S"};
 const int face_value[] = { 11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10};
 
 // Split lookup values
-const std::string split_string[] = {"Player", "Split", "Split 2", "Split 3"};
+const std::string deck_string[] = {"Player", "Split", "Split 2", "Split 3"};
 
-
-// Test case constants
+// Test case values
 const int test_case_number[] = {1, 1, 2, 6, 4, 8, 9, 1, 3, 2, 3, 10};
 const int test_case_suit[] = {0, 2, 1, 0, 1, 0, 2, 1, 0, 3, 2, 0};
 bool test_case = false;
@@ -26,7 +25,7 @@ public:
   int suit;
 
   Card() {
-    if (test_case) {
+    if (test_case && test_case_int < 12) {
       number = test_case_number[test_case_int];
       suit = test_case_suit[test_case_int];
       test_case_int++;
@@ -99,11 +98,8 @@ public:
   }
 
   bool isDoubles() {
-    if (hand_count > 0) {
-      std::vector<Card>::iterator it = hand.begin();
-      int i = it->number;
-      it++;
-      return (i == it->number);
+    if (hand_count == 2) {
+      return (hand[0].number == hand[1].number);
     }
     else {
       return false;
@@ -125,14 +121,14 @@ public:
     }
   }
   
-  void checkSplit() {
-    if (deck[0].isDoubles() && askSplit()) {
+  void checkSplit(int& player_cash, int player_bet) {
+    if (deck[0].isDoubles() && askSplit(player_cash, player_bet)) {
       splitHandler(deck[0], deck[1]);
       splitLevel = 1;
-      if (deck[1].isDoubles() && askSplit()) {
+      if (deck[1].isDoubles() && askSplit(player_cash, player_bet)) {
 	splitHandler(deck[1], deck[2]);
 	splitLevel = 2;
-	if (deck[0].isDoubles() && askSplit()) {
+	if (deck[0].isDoubles() && askSplit(player_cash, player_bet)) {
 	  splitHandler(deck[2], deck[3]);
 	  splitLevel = 3;
 	}
@@ -140,7 +136,12 @@ public:
     }
   }
 
-  bool askSplit() {
+  bool askSplit(int& player_cash, int player_bet) {
+    if (player_cash < player_bet) {
+      std::cout << "Cannot split. Insufficient Cash\n";
+      return false;
+    }
+    
     if (splitLevel < 1) {
       std::cout << "Split? (y/n): ";
     }
@@ -153,6 +154,7 @@ public:
       std::cin >> ch;
       ch = tolower(ch);
       if (ch == 'y') {
+	player_cash -= player_bet;
 	return true;
       }
       else if (ch == 'n') {
@@ -163,12 +165,8 @@ public:
   
   void splitHandler(Hand& h1, Hand& h2) {
     printHand();
-    std::vector<Card>::iterator it = h1.hand.end();
-    it--; // Get last card
 
-    Card card (h1.hand[1].number, h1.hand[1].suit);
-
-    h2.hand.push_back(card); // Push new card to new hand, and delete from old hand
+    h2.hand.push_back(h1.hand[1]); // Push new card to new hand, and delete from old hand
     h1.hand.pop_back();
     h1.hand_count--;
 
@@ -177,15 +175,8 @@ public:
   }
   
   void printHand() {
-    std::cout << "Player : " << deck[0].getHand(false) << "\n";
-    if (splitLevel >= 1) {
-      std::cout << "Split : " << deck[1].getHand(false) << "\n";
-    }
-    if (splitLevel >= 2) {
-      std::cout << "Split 2 : " << deck[2].getHand(false) << "\n";
-    }
-    if (splitLevel >= 3) {
-      std::cout << "Split 3 : " << deck[3].getHand(false) << "\n";    
+    for (int i = 0; i <= splitLevel; i++) {
+      std::cout << deck_string[i] << ": " << deck[i].getHand(false) << "\n";
     }    
   }
   
@@ -243,7 +234,7 @@ public:
     dealer.drawCard();
     dealer.drawCard();
 
-    player.checkSplit();
+    player.checkSplit(player_cash, player_bet);
     playRound(player, dealer);
   }
 
@@ -251,13 +242,8 @@ public:
     char ch;
     
     if (player.deck[player.currentLevel].getScore() >= 21 || player.deck[player.currentLevel].hand_count >= 5) { // End game if player gets 21 or over
-      if (player.currentLevel == player.splitLevel) {
-	endGame(player, dealer);
-      }
-      else {
-	player.currentLevel++;
-	playRound(player, dealer);
-      }
+      endGame(player, dealer);
+      return;
     }
 
     std::cout << "Dealer : * " << dealer.getHand(true) << "\n";
@@ -266,7 +252,7 @@ public:
       std::cout << "Draw? (y/n) ";
     }
     else {
-      std::cout << "Draw for " << split_string[player.currentLevel] << "? (y/n) ";
+      std::cout << "Draw for " << deck_string[player.currentLevel] << "? (y/n) ";
     }
 
     while (true) {
@@ -279,20 +265,18 @@ public:
 	break;
       }
       else if (ch == 'n') {
-	if (player.currentLevel == player.splitLevel) {
-	  endGame(player, dealer);
-	}
-	else {
-	  player.currentLevel++;
-	  playRound(player, dealer);
-	}
+	endGame(player, dealer);
 	break;
       }
     }
   }
 
   void endGame(Player player, Hand dealer) {
-    
+    if (player.currentLevel < player.splitLevel) {
+      player.currentLevel++;
+      playRound(player, dealer);
+      return;
+    }
     while (dealer.getScore() < 17 && dealer.hand_count < 5) {
       dealer.drawCard();
     }
@@ -307,7 +291,9 @@ public:
     std::cout << player.deck[player.splitLevel].getScore() << " points\n";
 
     for (int i = 0; i <= player.splitLevel; i++) {
-      std::cout << split_string[i] << ": ";
+      if (player.splitLevel > 0) {
+	std::cout << deck_string[i] << ": ";
+      }
 
       switch (checkWin(player.deck[i], dealer)) {
       case 0:
