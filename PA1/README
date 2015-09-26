@@ -1,0 +1,60 @@
+/**********************************************************************
+ *  README
+ **********************************************************************/
+
+Name: Dhesant Jogi Nakka  
+Nickname or English name: Dhesant
+Major: ECE
+Course: COMP2012H
+Email address: djnakka@connect.ust.hk
+Programming assignment #: 1
+OS: Ubuntu 14.04
+Compiler: g++ 4.8.4
+Hours spent: 20? (Can't remember)
+
+
+/**********************************************************************
+ *  List whatever help (if any) that you received.
+ **********************************************************************/
+I have sought help from the following people: N/A
+I have read the following books: N/A
+I have consulted the following websites: www.cplusplus.com
+
+The work included in this program is all my own work (Y/N): Y
+
+
+/**********************************************************************
+ *  Explain your overall approach and the unique features of your program
+ **********************************************************************/
+The program implements the following sections;
+ - A basic working program
+ - Split operation
+ - Looping and payment accounting
+ - (Partially) Smart dealer
+
+I approached the program by building classes for each level of the program, this allowed me to simplify the program flow, as by defining a class for Cards, Hands, Players, and the overall Game, it is then very easy to add and remove different elements of the game as needed, such as additional cards to/from hands, additional hands in the events of splits, or start a new game using the Game class.
+
+/**********************************************************************
+ *  Describe any serious problems your program has, or anything which
+ *  you have not implemented successfully
+ **********************************************************************/
+I have not implemented a probablistic dealer, the dealer will draw cards on anything less than 17 points or on a soft 17 (17 made using an Ace). However, the dealer is somewhat smart, as it can know whether it has won before drawing cards to ensure that it doesn't bust itself unnecessarily, and detect the presense of a soft hand, and draw on top of that hand, to ensure a better chance of winning.
+
+/**********************************************************************
+ *  State the input files you used to test your program
+ **********************************************************************/
+None, test sequence built into the program.
+
+
+/**********************************************************************
+ *  Known bugs / limitations of the program
+ **********************************************************************/
+The program uses a fully random deck allocation program, unlike in real life blackjack, where the deck is made of multiple packs of cards, this means that there is a very small possibility to see multiple copies of the same card, which, while possible in real life blackjack, is limited by the number of packs of cards used to make the deck, usually 4-8, while in this program, it is theoreically possible for all cards to be the same.
+
+
+/**********************************************************************
+ *  List any other comments here. Feel free to provide any feedback   
+ *  on how much you learned from doing the assignment, whether    
+ *  you like the assignment or not, and how the assignment may be
+ *  improved 
+ **********************************************************************/

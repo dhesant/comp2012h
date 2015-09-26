@@ -1,3 +1,18 @@
+/**********************************************************************
+ *  blackjack.cpp
+
+Name: Dhesant Jogi Nakka  
+Nickname or English name: Dhesant
+Major: ECE
+Course: COMP2012H
+Email address: djnakka@connect.ust.hk
+Programming assignment #: 1
+OS: Ubuntu 14.04
+Compiler: g++ 4.8.4
+Hours spent: 20? (Can't remember)
+
+**********************************************************************/
+
 #include <iostream> 
 #include <cstdlib> 
 #include <ctime> 
@@ -19,6 +34,17 @@ const int test_case_suit[] = {0, 2, 1, 0, 1, 0, 2, 1, 0, 3, 2, 0};
 bool test_case = false;
 int test_case_int = 0;
 
+// Class declarations
+class Card;
+class Hand;
+class Player;
+class Game;
+
+// Function declarations
+int checkWin(Hand player, Hand dealer);
+bool dealerDraw(Hand dealer, Player player);
+
+// Classes
 class Card {
 public:
   int number;
@@ -77,6 +103,15 @@ public:
       score -= 10;
     }
     return score;
+  }
+
+  bool hasAce() {
+    for (std::vector<Card>::iterator it = hand.begin() ; it != hand.end(); ++it) {
+      if (it->number == 0) {
+	return true;
+      }
+    }
+    return false;
   }
 
   std::string getHand(bool ignoreFirst) {
@@ -277,7 +312,7 @@ public:
       playRound(player, dealer);
       return;
     }
-    while (dealer.getScore() < 17 && dealer.hand_count < 5) {
+    while (dealerDraw(dealer, player)) {
       dealer.drawCard();
     }
   
@@ -315,24 +350,6 @@ public:
       }
     }
   }
-    
-  int checkWin(Hand player, Hand dealer) { // 0 = loss, 1 = tie, 2 = win
-    if (player.getScore() > 21) {
-      return 0;
-    }
-    else if (dealer.getScore() > 21) {
-      return 2;
-    }
-    else if (dealer.getScore() == player.getScore()) {
-      return 1;
-    }
-    else if (dealer.getScore() > player.getScore()) {
-      return 0;
-    }
-    else {
-      return 2;
-    }
-  }
 };
 
 int main() {
@@ -357,6 +374,45 @@ int main() {
     else if (ch == 'n') {
       break; // Exit loop
     }
+  }
+  return 0;
+}
+
+// Functions
+int checkWin(Hand player, Hand dealer) { // 0 = loss, 1 = tie, 2 = win
+  if (player.getScore() > 21) {
+    return 0;
+  }
+  else if (dealer.getScore() > 21) {
+    return 2;
+  }
+  else if (dealer.getScore() == player.getScore()) {
+    return 1;
+  }
+  else if (dealer.getScore() > player.getScore()) {
+    return 0;
+  }
+  else {
+    return 2;
+  }
+}
+
+bool dealerDraw(Hand dealer, Player player) {
+  bool d = false;
+  if (dealer.hand_count >= 5) {
+    return 0;
+  }
+  if (dealer.getScore() >= 21) {
+    return 0;
+  }
+  for (int i = 0; i <= player.splitLevel; i++) {
+    if (checkWin(player.deck[i], dealer) > 0) {
+      d = true;
+    }
+  }
+  if (d) {
+    bool r = (dealer.getScore() < 17 || (dealer.getScore() == 17 && dealer.hasAce()));
+    return r;
   }
   return 0;
 }
