@@ -12,6 +12,26 @@ OS: Ubuntu 14.04
 Compiler: g++ 4.8.4
 Hours spent: 20? (Can't remember)
 
+/**********************************************************************
+ *  List of included files
+ **********************************************************************/
+blackjack.cpp (Main source file)
+Makefile      (Makefile)
+README	      (Readme - this file)
+
+/**********************************************************************
+ *  Compilation Instructions
+ **********************************************************************/
+The program can be compiled with the command "g++ -o blackjack blackjack.cpp" or the Makefile, which outputs to the executable "blackjack"
+
+/**********************************************************************
+ * Program sections that have been implemented
+ **********************************************************************/
+The program implements the following sections;
+ - A basic working program
+ - Split operation
+ - Looping and payment accounting
+ - (Partially) Smart dealer
 
 /**********************************************************************
  *  List whatever help (if any) that you received.
@@ -26,15 +46,7 @@ The work included in this program is all my own work (Y/N): Y
 /**********************************************************************
  *  Explain your overall approach and the unique features of your program
  **********************************************************************/
-The program implements the following sections;
- - A basic working program
- - Split operation
- - Looping and payment accounting
- - (Partially) Smart dealer
-
 I approached the program by building classes for each level of the program, this allowed me to simplify the program flow, as by defining a class for Cards, Hands, Players, and the overall Game, it is then very easy to add and remove different elements of the game as needed, such as additional cards to/from hands, additional hands in the events of splits, or start a new game using the Game class.
-
-The program can be compiled with the command "g++ -o blackjack blackjack.cpp" or the Makefile, which outputs to the executable "blackjack"
 
 /**********************************************************************
  *  Describe any serious problems your program has, or anything which
