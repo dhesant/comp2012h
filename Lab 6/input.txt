@@ -1,0 +1,4 @@
+null;
+1->null;
+1->2->3->4->5->null;
+a->b->c->d->e->f->null;
