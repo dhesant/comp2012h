@@ -147,18 +147,21 @@ int main() {
     list2.push_back(it->get());
   }      
 
+  std::ofstream ofile;
+  ofile.open("output.txt");
+
   for(std::vector<linkedList>::iterator it = lists2.begin(); it != lists2.end(); ++it) { // Recursivly print all lists in lists2
     it->begin();
     while(true) {
       if (it->get() != '\0') {
-	std::cout << it->get() << "->";
+	ofile << it->get() << "->";
       }
       if(it->isEnd()) {
 	break;
       }
       it->increment();
     }
-    std::cout << "null;" << std::endl;
+    ofile << "null;" << std::endl;
   }
   
   return 0;
