@@ -4,21 +4,11 @@
 #include <string>
 #include <vector>
 
-// Structures prototypes
-struct node;
-
-// Function prototypes
-
-// Class prototypes
-class linkedList;
-
 // Structures
 struct node {
   char ch;
   struct node *next;
 };
-
-// Functions
 
 // Classes
 class linkedList {
@@ -43,10 +33,8 @@ public:
 
   void push_back(char ch) {
     end();
-    iterator->next = (struct node *)malloc(sizeof(struct node));
-    iterator = iterator->next;
-    iterator->ch = ch;
-    iterator->next = 0;
+    increment();
+    set(ch);
     return;
   }
 
@@ -59,7 +47,7 @@ public:
       prev = iterator;
       iterator = iterator->next;
     }
-    char ch = iterator->ch;
+    char ch = get();
     prev->next = 0;
     
     if (iterator != root) { // Ensure not erasing root node
@@ -110,10 +98,6 @@ public:
   bool isBegin() {
     return (iterator == root);
   }
-
-  struct node* getRoot() {
-    return root;
-  }
 };
 
 // Variables
@@ -131,31 +115,28 @@ int main() {
     return 1;
   }
 
+  // Vectors to hold the different linked lists
   std::vector<linkedList> lists;
   std::vector<linkedList> lists2;
-  //  int i;
+
   std::string s;
   while(getline(infile, s)) {
     linkedList list; // Create a new list and save it in a vector
     lists.push_back(list);
 
-    //    std::cout << i << ";";
-
     while (s != eol) {
-      std::string chunk = s.substr(0, s.find(delim));
+      std::string chunk = s.substr(0, s.find(delim)); // Get first value and add it to linked list
       list.set(chunk[0]);
-      s.erase(0, s.find(delim) + delim.length());
-      //      std::cout << chunk << ";" << s << ";";
-      if (s == eol) {
+      s.erase(0, s.find(delim) + delim.length()); // remove first value from string
+
+      if (s == eol) { // Do not generate extra node if null is reached
 	break;
       }
       list.increment();
     }
-    //    std::cout << "End of Line" << std::endl;
-    //    i++;
   }
 
-  for(std::vector<linkedList>::iterator it = lists.begin(); it != lists.end(); ++it) {
+  for(std::vector<linkedList>::iterator it = lists.begin(); it != lists.end(); ++it) { // Recursivly reverse all lists in lists
     linkedList list2; // Create new reversed list and save it in a vector
     lists2.push_back(list2);
 
@@ -166,7 +147,7 @@ int main() {
     list2.push_back(it->get());
   }      
 
-  for(std::vector<linkedList>::iterator it = lists2.begin(); it != lists2.end(); ++it) {
+  for(std::vector<linkedList>::iterator it = lists2.begin(); it != lists2.end(); ++it) { // Recursivly print all lists in lists2
     it->begin();
     while(true) {
       if (it->get() != '\0') {
@@ -179,32 +160,6 @@ int main() {
     }
     std::cout << "null;" << std::endl;
   }
-
-  /*
-  linkedList list(infile.get());
-  while(!infile.eof()) {
-    list.push_back(infile.get());
-  }
-
-
-  list.end();
-  linkedList list2(list.pop_back()); // Initialize reveresed list with last element
-  while(!list.isBegin()) {
-    list2.push_back(list.pop_back()); // Push back all elements
-  }
-  list2.push_back(list.get()); // Push back first element
-
-  list2.begin(); // Print all chars in the linked list
-  while(true) {
-    std::cout << list2.get();
-    if(list2.isEnd()) {
-      break;
-    }
-    list2.increment();
-  }
-  */
-
-  std::cout << std::endl;
   
   return 0;
 }
