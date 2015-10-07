@@ -25,10 +25,17 @@ private:
   struct node *root;
   struct node *iterator;
 public:
+  linkedList() {
+    root = (struct node *)malloc(sizeof(struct node));
+    iterator = root;
+    return;
+  }
+
   linkedList(char ch) {
     root = (struct node *)malloc(sizeof(struct node));
     iterator = root;
     iterator->ch = ch;
+    return;
   }
 
   void push_back(char ch) {
@@ -37,6 +44,7 @@ public:
     iterator = iterator->next;
     iterator->ch = ch;
     iterator->next = 0;
+    return;
   }
 
   char pop_back() { // Untested
@@ -55,23 +63,29 @@ public:
       free(iterator);
     }
 
-    iterator = root;
+    iterator = prev;
 
     return ch;
   }
 
   void begin() {
     iterator = root;
+    return;
   }
 
   void end() {
-    iterator = root;
     while(iterator->next != 0) {
       iterator = iterator->next;
     }
+    return;
   }
   
-  char getCurrent() {
+  void set(char ch) {
+    iterator->ch = ch;
+    return;
+  }
+  
+  char get() {
     return iterator->ch;
   }
 
@@ -81,6 +95,10 @@ public:
   
   bool isEnd() {
     return (iterator->next == 0);
+  }
+  
+  bool isBegin() {
+    return (iterator == root);
   }
 };
 
@@ -92,7 +110,7 @@ const char eol[] = "null;";
 const char delim[] = "->";
 
 int main() {
-  std::ifstream infile;
+  std::ifstream infile; // Open input file
   infile.open(in_name, std::ios::in);
   if(infile.fail()) {
     std::cout << "An error has occured while opening 'input.txt'" << std::endl;
@@ -100,20 +118,27 @@ int main() {
   }
 
   linkedList list(infile.get());
-  
-
   while(!infile.eof()) {
     list.push_back(infile.get());
   }
 
-  list.begin();
+  list.end();
+  linkedList list2(list.pop_back()); // Initialize reveresed list with last element
+  while(!list.isBegin()) {
+    list2.push_back(list.pop_back()); // Push back all elements
+  }
+  list2.push_back(list.get()); // Push back first element
+
+  list2.begin(); // Print all chars in the linked list
   while(true) {
-    std::cout << list.getCurrent();
-    list.increment();
-    if(list.isEnd()) {
+    std::cout << list2.get();
+    if(list2.isEnd()) {
       break;
     }
+    list2.increment();
   }
 
+  std::cout << std::endl;
+  
   return 0;
 }
