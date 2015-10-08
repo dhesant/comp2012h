@@ -19,7 +19,7 @@ class Array {
 private:
   int size;
   char array[MAX_ELEMENTS];
-  std::vector<std::string> perm;
+  std::vector<std::string> vec;
 
 public:
   Array() {
@@ -54,40 +54,50 @@ public:
 	currentSize++;
       }
     }
+    std::cin.clear(); // Clear extra chars from cin
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     //    std::cout << array << std::endl; // Debug: Print final array
     return;
   }
 
   void printPerm() {
-    calcPerm(array, 0);
+    calcVec(array, 0);
     removeDuplicates();
     std::cout << "The permutations are: \n";
-    for (std::vector<std::string>::iterator it = perm.begin() ; it != perm.end(); ++it) {
+    for (std::vector<std::string>::iterator it = vec.begin() ; it != vec.end(); ++it) {
       std::cout << *it << std::endl;
     }
   }
 
-  void removeDuplicates() { // Not working
-    for (std::vector<std::string>::iterator it = perm.begin() ; it != perm.end(); ++it) {
-      for (std::vector<std::string>::iterator it2 = ++it ; it2 != perm.end(); ++it2) {
+  //  /*
+  void removeDuplicates() { // Inefficient algorithm
+    bool foundDup = false;
+    for (std::vector<std::string>::iterator it = vec.begin(); it != vec.end(); ++it) {
+      for (std::vector<std::string>::iterator it2 = it+1; it2 != vec.end(); ++it2) {
 	if (*it == *it2) {
-	  perm.erase(it2);
+	  foundDup = true;
+	  vec.erase(it2);
+	  removeDuplicates();
+	  break;
 	}
       }
+      if (foundDup) {
+	break;
+      }
     }
-    std::cout << std::endl;
   }
+  // */
 
   // Wishlist: find a way to do this function non-destructivly
-  void calcPerm(char* p, int depth) {
+  void calcVec(char* p, int depth) {
     if (depth == size) {
-      perm.push_back(std::string(p));
+      vec.push_back(std::string(p));
     }
     else {
       for (int i = depth; i < size; i++) {
 	//	std::cout << depth << ", " << i << ", "; // Debug: print swap position
 	swapPlace(p, depth, i);
-	calcPerm(p, depth+1);
+	calcVec(p, depth+1);
 	swapPlace(p, depth, i);
       }
     }
