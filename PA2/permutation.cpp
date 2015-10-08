@@ -20,6 +20,7 @@ private:
   int size;
   char array[MAX_ELEMENTS];
   std::vector<std::string> vec;
+  std::vector<std::string> vec2;
 
 public:
   Array() {
@@ -64,12 +65,54 @@ public:
     calcPerm(array, 0);
     removeDuplicates();
     std::cout << "The permutations are: \n";
-    for (std::vector<std::string>::iterator it = vec.begin() ; it != vec.end(); ++it) {
+    for (std::vector<std::string>::iterator it = vec2.begin() ; it != vec2.end(); ++it) {
       std::cout << *it << std::endl;
     }
   }
 
-  //  /*
+  void removeDuplicates() {
+    vec2.push_back(vec[0]);
+    /*
+      std::cout << "Debug: vec" << std::endl;
+      for (std::vector<std::string>::iterator it = vec.begin() ; it != vec.end(); ++it) {
+      std::cout << *it << " " << &*it << std::endl;
+      }
+      std::cout << "Debug: vec2" << std::endl;
+      for (std::vector<std::string>::iterator it = vec2.begin() ; it != vec2.end(); ++it) {
+      std::cout << *it << " " << &*it << std::endl;
+      }
+    */
+    for (std::vector<std::string>::iterator it = vec.begin(); it != vec.end(); ++it) {
+      //      std::cout << "Debug 1 " << *it << " " << &*it << std::endl; // Why do you segfault here...
+      bool isDup = false;
+      for (std::vector<std::string>::iterator it2 = vec2.begin(); it2 != vec2.end(); ++it2) {
+	/*
+	  std::cout << "Debug 2 " << *it2 << " " << &*it2 << std::endl;
+	  std::cout << "Debug: vec2" << std::endl;
+	  for (std::vector<std::string>::iterator it3 = vec2.begin() ; it3 != vec2.end(); ++it3) {
+	  std::cout << *it3 << " " << &*it3 <<  std::endl;
+	  }
+	*/
+	if (*it == *it2) {
+	  //	std::cout << "Debug 3" << std::endl;
+	  isDup = true;
+	  break;
+	}
+      }
+      //std::cout << "Debug 4" << std::endl;
+      if (!isDup) {
+	//	std::cout << "Debug 5" << std::endl;
+	vec2.push_back(*it);
+	//	std::cout << "Debug: vec2" << std::endl;
+	//	for (std::vector<std::string>::iterator it = vec2.begin() ; it != vec2.end(); ++it) {
+	//	  std::cout << *it << std::endl;
+	//	}
+      }
+    }
+  }
+
+
+  /*
   void removeDuplicates() { // Inefficient algorithm
     bool foundDup = false;
     for (std::vector<std::string>::iterator it = vec.begin(); it != vec.end(); ++it) {
@@ -86,7 +129,7 @@ public:
       }
     }
   }
-  // */
+  */
 
   // Wishlist: find a way to do this function non-destructivly
   void calcPerm(char* p, int depth) {
