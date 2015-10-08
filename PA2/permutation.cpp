@@ -61,7 +61,7 @@ public:
   }
 
   void printPerm() {
-    calcVec(array, 0);
+    calcPerm(array, 0);
     removeDuplicates();
     std::cout << "The permutations are: \n";
     for (std::vector<std::string>::iterator it = vec.begin() ; it != vec.end(); ++it) {
@@ -89,7 +89,7 @@ public:
   // */
 
   // Wishlist: find a way to do this function non-destructivly
-  void calcVec(char* p, int depth) {
+  void calcPerm(char* p, int depth) {
     if (depth == size) {
       vec.push_back(std::string(p));
     }
@@ -97,7 +97,7 @@ public:
       for (int i = depth; i < size; i++) {
 	//	std::cout << depth << ", " << i << ", "; // Debug: print swap position
 	swapPlace(p, depth, i);
-	calcVec(p, depth+1);
+	calcPerm(p, depth+1);
 	swapPlace(p, depth, i);
       }
     }
