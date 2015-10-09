@@ -1,14 +1,17 @@
-all: main
+CC=g++
+CFLAGS=-c -Wall
+LDFLAGS=
+SOURCES=main.cpp date.cpp
+OBJECTS=$(SOURCES:.cpp=.o)
+EXECUTABLE=date
 
-main: main.o date.o
-	g++ -o main main.o date.o
-	rm -f *~ *.o core
+all: $(SOURCES) $(EXECUTABLE)
 
-main.o: main.cpp
-	g++ -c main.cpp -g
+$(EXECUTABLE): $(OBJECTS) 
+	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
 
-date.o: date.h date.cpp
-	g++ -c date.cpp -g
+.cpp.o:
+	$(CC) $(CFLAGS) $< -o $@
 
 clean:
-	rm -f *~ *.o main core
+	rm -f *~ *.o $(EXECUTABLE)
