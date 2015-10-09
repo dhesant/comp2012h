@@ -12,6 +12,7 @@ class Matrix { // Matrix class
   Matrix transpose() const; // the transpose of matrix
   Matrix inverse() const; // the inverse of matrix
   // Add your public member functions, if any, in the following
+  int det() const;
 
  private:
   double **elm; // matrix elements
