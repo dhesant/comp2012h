@@ -11,12 +11,13 @@ int main() {
   Date today(day, month, year);
 
   cout << "Today is ";
-  //TO DO: display the date of today
+  today.print();
 
   Date deadline;
-  //TO DO: set the date of assignment's deadline
+  deadline.set(15, 10, 2015);
+
   cout << "The deadline of this assessment is ";
-  //TO DO: display the date of assignment's deadline
+  deadline.print();
 
   return 0;
 };

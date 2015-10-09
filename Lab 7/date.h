@@ -1,12 +1,11 @@
 // COMP152 Lab
-
-#include <iostream>
-using namespace std;
-
 class Date {
 public:
   Date(int day, int month, int year);
   Date();
+
+  void set(int d, int m, int y);
+  void print();
 
 private:
   int day;
