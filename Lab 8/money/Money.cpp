@@ -1,7 +1,12 @@
 #include "Money.h"
 
+MoneyType::MoneyType() {
+  dollars = 0;
+  cents = 0;
+}
+
 // Post: dollars is set to newDollars; cents is set to newCents.
-void MoneyType::Initialize(long newDollars,long newCents)
+MoneyType::MoneyType(long newDollars,long newCents)
 {
     // Modify this function to be another constructor.
     
@@ -41,5 +46,8 @@ void MoneyType::Normalize()
 {
     // Implement this member function
     // Normalize the cents amount to be between 0 and 99 and adjust the dollar amount accordingly.
-    
+  while (cents >= 100) {
+    cents -= 100;
+    dollars++;
+  }
 }
