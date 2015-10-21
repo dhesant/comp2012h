@@ -1,3 +1,6 @@
+#include "Matrix.h"
+#include <iostream>
+
 // Constructor: Initialize the matrix to be a rows x cols matrix.
 // rows >= 0; cols >= 0
 // default is an empty 0 x 0 matrix
@@ -23,14 +26,14 @@ Matrix::Matrix(const Matrix & mt) {
 
   for (int i = 0; i < r; ++i) {
     for (int j = 0; j < c; ++j) {
-      el(i, j) = mt.el(i, j);
+      elm[i][j] = mt.el(i, j);
     }
   }
 }
 
 // Destructor for the matrix
-Matrix::˜Matrix() {
-  for (int i = 0, i < r, ++i) {
+Matrix::~Matrix() {
+  for (int i = 0; i < r; ++i) {
     delete [] elm [i];
   }
   delete [] elm;
@@ -60,7 +63,7 @@ void Matrix::assign(const Matrix & op) {
   }
   for (int i = 0; i < op.rows(); ++i) {
     for (int j = 0; j < op.cols(); ++j) {
-      el(i,j) = op.el(i,j);
+      elm[i][j] = op.el(i,j);
     }
   }
 }
@@ -78,7 +81,7 @@ Matrix Matrix::mul(const Matrix & op) const {
     for (int i = 0; i < mr; ++i) {
       for (int j = 0; j < mc; ++j) {
 	for (int k = 0; k < mp; ++k) {
-	  m.el(i, j) = el(i, k)*op.el(k, j);
+	  m.setel(i, j, el(i, k)*op.el(k, j));
 	}
       }
     }
@@ -94,10 +97,11 @@ Matrix Matrix::mul(const Matrix & op) const {
 Matrix Matrix::transpose() const {
   Matrix trans(c, r);
   for (int i = 0; i < c; ++i) {
-    for (int j = 0; i < r; ++j) {
-      trans.el(i, j) = el(j, i);
+    for (int j = 0; j < r; ++j) {
+      trans.setel(i, j, el(j, i));
     }
   }
+  return trans;
 }
 
 // Return a new matrix which is the inverse of the matrix.
@@ -110,11 +114,54 @@ Matrix Matrix::inverse() const {
   return n;
 }
 
-int Matrix::det() const {
+double Matrix::det() const {
   if (r != c) {
     return 0;
   }
-  if (r == 2) {
-    return ((el(0, 0)*el(1,1))-(el(1,0)*el(0,1)));
+
+  double det = 0;
+
+  for (int i = 0; i < r; i++) {
+    Matrix minor = getMinor(0, i);
+    if (i % 2 == 0) {
+      det += el(0, i) * minor.det();
+    }
+    else {
+      det -= el(0, i) * minor.det();
+    }
+  }
+  return det;
+}
+
+Matrix Matrix::getMinor(const int & minor_r, const int & minor_c) const {
+  Matrix minor(r-1, c-1);
+
+  int rowCount = 0;
+  int colCount = 0;
+
+  for (int i = 0; i < r; ++i) {
+    if (i != minor_r) {
+      for (int j = 0; j < c; j++) {
+	if (j != minor_c) {
+	  minor.setel(rowCount, colCount, el(i, j));
+	  colCount++;
+	}
+      }
+      rowCount++;
+    }
+  }
+  return minor;
+}
+
+void Matrix::setel(int i, int j, const double & val) {
+  elm[i][j] = val;
+}
+
+void Matrix::print() {
+  for (int i = 0; i < r; ++i) {
+    for (int j = 0; j < c; ++j) {
+      std::cout << el(i, j) << " ";
+    }
+    std::cout << std::endl;
   }
 }

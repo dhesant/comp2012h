@@ -3,7 +3,7 @@ class Matrix { // Matrix class
   explicit Matrix(int rows = 0, int cols = 0);
   // constructor
   Matrix( const Matrix & mt); // copy constructor
-  ˜Matrix(); // destructor
+  ~Matrix(); // destructor
   int rows() const; // return the number of rows of the matrix
   int cols() const; // return the number of columns of the matrix
   double & el(int i, int j) const; // access (i, j)th element
@@ -12,7 +12,11 @@ class Matrix { // Matrix class
   Matrix transpose() const; // the transpose of matrix
   Matrix inverse() const; // the inverse of matrix
   // Add your public member functions, if any, in the following
-  int det() const;
+  double det() const;
+  void setel(int i, int j, const double & val);
+  void print();
+  Matrix getMinor(const int & minor_r, const int & minor_c) const;
+
 
  private:
   double **elm; // matrix elements
