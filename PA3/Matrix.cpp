@@ -59,11 +59,29 @@ double & Matrix::el(int i, int j) const {
 // Resize matrix (allocate space) if necessary
 void Matrix::assign(const Matrix & op) {
   if (op.rows() > r || op.cols() > c) {
-    // TODO: Resize matrix
-  }
+    int newr = (op.rows() > r ? op.rows() : r);
+    int newc = (op.cols() > c ? op.cols() : c);
+  
+    double** newelm = new double*[newr]; // Create new double array
+    for (int i = 0; i < newr; ++i) {
+      newelm[i] = new double[newc];
+    }
+
+    for (int i = 0; i < r; ++i) { // Populate new pointer array with old values
+      for (int j = 0; j < c; ++j) {
+	newelm[i][j] = el(i, j);
+      }
+    }
+
+    r = newr; // Reassign existing values
+    c = newc;
+    delete [] elm;
+    elm = newelm;
+  }    
+
   for (int i = 0; i < op.rows(); ++i) {
     for (int j = 0; j < op.cols(); ++j) {
-      elm[i][j] = op.el(i,j);
+      el(i, j) = op.el(i,j);
     }
   }
 }
@@ -71,26 +89,34 @@ void Matrix::assign(const Matrix & op) {
 // Return a new matrix which is the product of
 // this matrix and matrix op.
 // Precondition: valid multiplication with correct rows and columns
-Matrix Matrix::mul(const Matrix & op) const {
-  if (c == op.rows()) {
-    int mr = r; // Load matrix parameters into easy to understand variables
-    int mp = c;
-    int mc = op.cols();
 
-    Matrix m(r, op.cols());
-    for (int i = 0; i < mr; ++i) {
-      for (int j = 0; j < mc; ++j) {
-	for (int k = 0; k < mp; ++k) {
-	  m.setel(i, j, el(i, k)*op.el(k, j));
-	}
-      }
-    }
-    return m;
-  }
-  else {
+// Incorrect formula
+Matrix Matrix::mul(const Matrix & op) const {
+  if (c != op.rows()) {
     Matrix n(0,0);
     return n;
   }
+
+  int mr = r; // Load matrix parameters into easy to understand variables
+  int mp = c;
+  int mc = op.cols();
+
+  // Initialize output matrix to all 0
+  Matrix m(mr, mc);
+  for (int i = 0; i < mr; ++i) {
+    for (int j = 0; j < mc; ++j) {
+      m.el(i, j) = 0;
+    }
+  }
+
+  for (int i = 0; i < mr; ++i) {
+    for (int j = 0; j < mc; ++j) { // For each cell (i, j)
+      for (int k = 0; k < mp; ++k) { // For each col in 1, and row in 2
+	m.el(i, j) += el(i, k)*op.el(k, j);
+      }
+    }
+  }
+  return m;
 }
 
 // Return a new matrix which is the transpose of the matrix.
@@ -98,7 +124,7 @@ Matrix Matrix::transpose() const {
   Matrix trans(c, r);
   for (int i = 0; i < c; ++i) {
     for (int j = 0; j < r; ++j) {
-      trans.setel(i, j, el(j, i));
+      trans.el(i, j) = el(j, i);
     }
   }
   return trans;
@@ -107,21 +133,22 @@ Matrix Matrix::transpose() const {
 // Return a new matrix which is the inverse of the matrix.
 // Return a zero matrix if inverse does not exist
 Matrix Matrix::inverse() const {
-  if (det() == 0) {
+  double deter = det();
+
+  if (deter == 0) {
     Matrix n(0,0);
     return n;
   }
 
-  double divisor = 1.0/det();
+  Matrix cf = cofactor();
+  Matrix inv = cf.transpose();
 
-  Matrix inverse = cofactor();
-
-  for (int i = 0; i < r; i++ ) {
-    for (int j = 0; j < r; j++ ) {
-      inverse.setel(i, j, el(i,j)*divisor);
+  for (int i = 0; i < r; i++) {
+    for (int j = 0; j < c; j++) {
+      inv.el(i, j) /= deter;
     }
   }
-  return inverse;
+  return inv;
 }
 
 // Return a new matrix which is the cofactor matrix of the matrix.
@@ -132,16 +159,16 @@ Matrix Matrix::cofactor() const {
     return n;
   }
   
-  Matrix cofactor(r, r);
+  Matrix cf(r, r);
 
   for (int i = 0; i < r; ++i) {
     for (int j = 0; j < c; ++j) {
       int factor = (((j+1) + i*r)%2==0?-1:1);
       Matrix minor = getMinor(i, j);
-      cofactor.setel(i, j, factor*minor.det());
+      cf.el(i, j) = factor*minor.det();
     }
   }
-  return cofactor;
+  return cf;
 }
 
 // Return the determinant of the matrix.
@@ -172,7 +199,7 @@ double Matrix::det() const {
 
 // Return a new matrix that excludes the (minor_r)'th row, and the (minor_c)'th column,
 Matrix Matrix::getMinor(const int & minor_r, const int & minor_c) const {
-  Matrix minor(r-1, c-1);
+  Matrix min(r-1, c-1);
 
   int rowCount = 0;
   int colCount = 0;
@@ -182,18 +209,14 @@ Matrix Matrix::getMinor(const int & minor_r, const int & minor_c) const {
       colCount = 0;
       for (int j = 0; j < c; j++) {
 	if (j != minor_c) {
-	  minor.setel(rowCount, colCount, el(i, j));
+	  min.el(rowCount, colCount) = el(i, j);
 	  colCount++;
 	}
       }
       rowCount++;
     }
   }
-  return minor;
-}
-
-void Matrix::setel(int i, int j, const double & val) {
-  elm[i][j] = val;
+  return min;
 }
 
 void Matrix::print() {
@@ -203,4 +226,25 @@ void Matrix::print() {
     }
     std::cout << std::endl;
   }
+}
+
+void Matrix::setIdentity() {
+  if (r != c) {
+    return;
+  }
+
+  for (int i = 0; i < r; ++i) {
+    for (int j = 0; j < c; ++j) {
+      if (i == j) {
+	el(i, j) = 1;
+      }
+      else {
+	el(i, j) = 0;
+      }
+    }
+  }
+}
+
+void Matrix::setel(int i, int j, const double & val) {
+  elm[i][j] = val;
 }

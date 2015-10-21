@@ -12,12 +12,12 @@ class Matrix { // Matrix class
   Matrix transpose() const; // the transpose of matrix
   Matrix inverse() const; // the inverse of matrix
   // Add your public member functions, if any, in the following
-  double det() const;
-  void setel(int i, int j, const double & val);
-  void print();
-  Matrix getMinor(const int & minor_r, const int & minor_c) const;
-  Matrix cofactor() const;
-
+  double det() const; // Get determinant of the matrix
+  void setel(int i, int j, const double & val); // Set the (i, j)'th element to val
+  void print(); // Print the matrix to std::cout
+  Matrix getMinor(const int & minor_r, const int & minor_c) const; // Get the matrix without the (minor_r)'th row and the (minor_c)'th column
+  Matrix cofactor() const; // Get the cofactor matrix
+  void setIdentity(); // Set the matrix to the identity matrix
 
  private:
   double **elm; // matrix elements
