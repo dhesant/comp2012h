@@ -16,6 +16,7 @@ class Matrix { // Matrix class
   void setel(int i, int j, const double & val);
   void print();
   Matrix getMinor(const int & minor_r, const int & minor_c) const;
+  Matrix cofactor() const;
 
 
  private:

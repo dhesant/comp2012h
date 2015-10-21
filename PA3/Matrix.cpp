@@ -107,14 +107,47 @@ Matrix Matrix::transpose() const {
 // Return a new matrix which is the inverse of the matrix.
 // Return a zero matrix if inverse does not exist
 Matrix Matrix::inverse() const {
-  if (det() != 0) { // Check if inverse
-    
+  if (det() == 0) {
+    Matrix n(0,0);
+    return n;
   }
-  Matrix n(0,0);
-  return n;
+
+  double divisor = 1.0/det();
+
+  Matrix inverse = cofactor();
+
+  for (int i = 0; i < r; i++ ) {
+    for (int j = 0; j < r; j++ ) {
+      inverse.setel(i, j, el(i,j)*divisor);
+    }
+  }
+  return inverse;
 }
 
+// Return a new matrix which is the cofactor matrix of the matrix.
+// Return a zero matrix if the matrix is not square.
+Matrix Matrix::cofactor() const {
+  if ( r != c) {
+    Matrix n(0,0);
+    return n;
+  }
+  
+  Matrix cofactor(r, r);
+
+  for (int i = 0; i < r; ++i) {
+    for (int j = 0; j < c; ++j) {
+      int factor = (((j+1) + i*r)%2==0?-1:1);
+      Matrix minor = getMinor(i, j);
+      cofactor.setel(i, j, factor*minor.det());
+    }
+  }
+  return cofactor;
+}
+
+// Return the determinant of the matrix.
+// Returns 0 if the matrix is not square.
 double Matrix::det() const {
+  // Ensure matrix is square
   if (r != c) {
     return 0;
   }
@@ -127,18 +160,17 @@ double Matrix::det() const {
 
   for (int i = 0; i < r; i++) {
     Matrix minor = getMinor(0, i);
-    //    minor.print();
     if (i % 2 == 0) {
       det += el(0, i) * minor.det();
     }
     else {
       det -= el(0, i) * minor.det();
     }
-    //    std::cout << "Debug: " << det << std::endl;
   }
   return det;
 }
 
+// Return a new matrix that excludes the (minor_r)'th row, and the (minor_c)'th column,
 Matrix Matrix::getMinor(const int & minor_r, const int & minor_c) const {
   Matrix minor(r-1, c-1);
 
@@ -150,7 +182,6 @@ Matrix Matrix::getMinor(const int & minor_r, const int & minor_c) const {
       colCount = 0;
       for (int j = 0; j < c; j++) {
 	if (j != minor_c) {
-	  //	  std::cout << "Debug: " << i << "," << j << "," << rowCount << "," << colCount << "," << el(i,j) << std::endl;
 	  minor.setel(rowCount, colCount, el(i, j));
 	  colCount++;
 	}
