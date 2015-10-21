@@ -71,5 +71,4 @@ int main() {
   std::cout << "M(2x2): " << std::endl;
   m2x2.print();
   
-  
 }

@@ -52,33 +52,60 @@ int Matrix::cols() const {
 // Return the (i, j)th element of the matrix
 // Precondition: i and j are valid ranges
 double & Matrix::el(int i, int j) const {
+  if ( i < 0 || i >= r) {
+    double n = 0;
+    return n;
+  }
+  if ( j < 0 || j >= c) {
+    double n = 0;
+    return n;
+  }
+
   return elm[i][j];
 }
 
 // Assign and copy all the elements of matrix op to the matrix.
 // Resize matrix (allocate space) if necessary
 void Matrix::assign(const Matrix & op) {
+  // Resize matrix if necessary.
   if (op.rows() > r || op.cols() > c) {
+    // Get new matrix dimensions
     int newr = (op.rows() > r ? op.rows() : r);
     int newc = (op.cols() > c ? op.cols() : c);
   
-    double** newelm = new double*[newr]; // Create new double array
+    // Create new 2D array
+    double** newelm = new double*[newr];
     for (int i = 0; i < newr; ++i) {
       newelm[i] = new double[newc];
     }
 
-    for (int i = 0; i < r; ++i) { // Populate new pointer array with old values
+    // Fill new array with 0 for safety
+    for (int i = 0; i < newr; ++i) {
+      for (int j = 0; j < newc; ++j) {
+	newelm[i][j] = 0;
+      }
+    }
+
+    // Copy elements from old array to new array
+    for (int i = 0; i < r; ++i) { 
       for (int j = 0; j < c; ++j) {
 	newelm[i][j] = el(i, j);
       }
     }
 
-    r = newr; // Reassign existing values
-    c = newc;
+    // Delete old array from memory
+    for (int i = 0; i < r; ++i) {
+      delete [] elm [i];
+    }
     delete [] elm;
+
+    // Reassign existing matrix parameters to new parameters
+    r = newr; 
+    c = newc;
     elm = newelm;
   }    
 
+  // Copy elements to the matrix
   for (int i = 0; i < op.rows(); ++i) {
     for (int j = 0; j < op.cols(); ++j) {
       el(i, j) = op.el(i,j);
@@ -97,8 +124,9 @@ Matrix Matrix::mul(const Matrix & op) const {
     return n;
   }
 
-  int mr = r; // Load matrix parameters into easy to understand variables
-  int mp = c;
+  // Define matrix dimensions in variables
+  int mr = r;
+  int mp = c; // = op.rows();
   int mc = op.cols();
 
   // Initialize output matrix to all 0
@@ -154,16 +182,16 @@ Matrix Matrix::inverse() const {
 // Return a new matrix which is the cofactor matrix of the matrix.
 // Return a zero matrix if the matrix is not square.
 Matrix Matrix::cofactor() const {
-  if ( r != c) {
+  if (r != c) {
     Matrix n(0,0);
     return n;
   }
   
-  Matrix cf(r, r);
+  Matrix cf(r, c);
 
   for (int i = 0; i < r; ++i) {
     for (int j = 0; j < c; ++j) {
-      int factor = (((j+1) + i*r)%2==0?-1:1);
+      int factor = ((j+1) + i*r)%2==0?-1:1;
       Matrix minor = getMinor(i, j);
       cf.el(i, j) = factor*minor.det();
     }
@@ -179,6 +207,7 @@ double Matrix::det() const {
     return 0;
   }
   
+  // Recursive end iteration (matrix is a 1x1 matrix)
   if (r == 1) {
     return elm[0][0];
   }
@@ -199,6 +228,12 @@ double Matrix::det() const {
 
 // Return a new matrix that excludes the (minor_r)'th row, and the (minor_c)'th column,
 Matrix Matrix::getMinor(const int & minor_r, const int & minor_c) const {
+  // Return zero matrix if matrix is 1x1
+  if (r < 2 && c < 2) {
+    Matrix n(0,0);
+    return n;
+  }
+
   Matrix min(r-1, c-1);
 
   int rowCount = 0;
@@ -219,6 +254,7 @@ Matrix Matrix::getMinor(const int & minor_r, const int & minor_c) const {
   return min;
 }
 
+// Print the matrix to std::cout
 void Matrix::print() {
   for (int i = 0; i < r; ++i) {
     for (int j = 0; j < c; ++j) {
@@ -228,7 +264,9 @@ void Matrix::print() {
   }
 }
 
+// Set the matrix to the identity matrix.
 void Matrix::setIdentity() {
+  // Ensure matrix is square
   if (r != c) {
     return;
   }
@@ -243,8 +281,4 @@ void Matrix::setIdentity() {
       }
     }
   }
-}
-
-void Matrix::setel(int i, int j, const double & val) {
-  elm[i][j] = val;
 }
