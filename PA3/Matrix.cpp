@@ -118,17 +118,23 @@ double Matrix::det() const {
   if (r != c) {
     return 0;
   }
+  
+  if (r == 1) {
+    return elm[0][0];
+  }
 
   double det = 0;
 
   for (int i = 0; i < r; i++) {
     Matrix minor = getMinor(0, i);
+    //    minor.print();
     if (i % 2 == 0) {
       det += el(0, i) * minor.det();
     }
     else {
       det -= el(0, i) * minor.det();
     }
+    //    std::cout << "Debug: " << det << std::endl;
   }
   return det;
 }
@@ -139,10 +145,12 @@ Matrix Matrix::getMinor(const int & minor_r, const int & minor_c) const {
   int rowCount = 0;
   int colCount = 0;
 
-  for (int i = 0; i < r; ++i) {
+  for (int i = 0; i < r; i++) {
     if (i != minor_r) {
+      colCount = 0;
       for (int j = 0; j < c; j++) {
 	if (j != minor_c) {
+	  //	  std::cout << "Debug: " << i << "," << j << "," << rowCount << "," << colCount << "," << el(i,j) << std::endl;
 	  minor.setel(rowCount, colCount, el(i, j));
 	  colCount++;
 	}
