@@ -11,12 +11,17 @@ class Matrix { // Matrix class
   Matrix mul(const Matrix & op) const; // multiplication of matrices
   Matrix transpose() const; // the transpose of matrix
   Matrix inverse() const; // the inverse of matrix
+
   // Add your public member functions, if any, in the following
   double det() const; // Get determinant of the matrix
   void print(); // Print the matrix to std::cout
   Matrix getMinor(const int & minor_r, const int & minor_c) const; // Get the matrix without the (minor_r)'th row and the (minor_c)'th column
   Matrix cofactor() const; // Get the cofactor matrix
+  Matrix solveForX(const Matrix & b) const;
+
+  // Set matrix to useful values
   void setIdentity(); // Set the matrix to the identity matrix
+  void setZero();
 
  private:
   double **elm; // matrix elements

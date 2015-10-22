@@ -207,7 +207,7 @@ double Matrix::det() const {
     return 0;
   }
   
-  // Recursive end iteration (matrix is a 1x1 matrix)
+  // Recursive end condition return (matrix is a 1x1 matrix)
   if (r == 1) {
     return elm[0][0];
   }
@@ -279,6 +279,29 @@ void Matrix::setIdentity() {
       else {
 	el(i, j) = 0;
       }
+    }
+  }
+}
+
+// Solve matrix equation Ax=B, where A is the current matrix.
+// Precondition: A must be a square matrix, and B must be a m x 1 matrix, where A is a m x n matrix.
+Matrix Matrix::solveForX(const Matrix & b) const {
+  // Ensure B is the correct size
+  if (b.rows() != r && b.cols() != 1) {
+    Matrix n(0,0);
+    return n;
+  }
+
+  Matrix inva = inverse();
+  Matrix x = inva.mul(b);
+
+  return x;
+}
+
+void Matrix::setZero() {
+  for (int i = 0; i < r; ++i) {
+    for (int j = 0; j < c; ++j) {
+      el(i, j) = 0;
     }
   }
 }

@@ -2,73 +2,127 @@
 #include <iostream>
 #include "Matrix.h"
 
-double lookup[10] = { 0, 1, 2, 3, 0, 4, 5, 1, 0, 6};
-double lookup2x3[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-double lookup2x2[5] = {0, 9, 8, 7, 6};
+double lookup1[3][3] = {{1, 2, 3}, {0, 4, 5}, {1, 0, 6}};
+double lookup2x4[2][4] = {{1, 2, 3, 4}, {5, 6, 7, 8}};
+double lookup4x2[4][2] = {{1, 2}, {3, 4}, {5, 6}, {7, 8}};
+
+double lookupa[3][4] = {{3, 2, -5},{1,-3,2},{5,-1,4}};
+double lookupb[3] = {12,-13,10};
 
 int main() {
-  Matrix m3x3(3,3);
-  Matrix m2x3(2,3);
+  Matrix m2x4(2, 4);
+  Matrix m4x2(4, 2);
+  Matrix m4x4(4, 4);
 
-  for (int i = 0; i < 3; i++) {
-    for (int j = 0; j < 3; j++) {
-      m3x3.el(i, j) = lookup[(j+1)+(3*i)];
-    }
-  }
-
-  for (int i = 0; i < 2; i++) {
-    for (int j = 0; j < 3; j++) {
-      m2x3.el(i, j) = lookup2x3[(j+1)+(2*i)];
-    }
-  }
-
-  std::cout << "Matrix 1: " << std::endl;
-  m3x3.print();
+  m4x4.setZero();
   
-  std::cout << "Matrix 2: " << std::endl;
-  m2x3.print();
+  for (int i = 0; i < 2; ++i) {
+    for (int j = 0; j < 4; ++j) {
+      m2x4.el(i, j) = lookup2x4[i][j];
+    }
+  }
+
+  for (int i = 0; i < 4; ++i) {
+    for (int j = 0; j < 2; ++j) {
+      m4x2.el(i, j) = lookup4x2[i][j];
+    }
+  }
+
+  // Test matrix assignment w/o resizing
+  std::cout << "Matrix:\n";
+  m4x4.print();
+  
+  std::cout << "Matrix 1:\n";
+  m4x2.print();
+
+  m4x4.assign(m4x2);
+  std::cout << "Matrix:\n";
+  m4x4.print();
+  
+  std::cout << "Matrix 2:\n";
+  m2x4.print();
  
-  m3x3.assign(m2x3);
+  m4x4.assign(m2x4);
+  std::cout << "Matrix:\n";
+  m4x4.print();
 
-  std::cout << "Matrix: " << std::endl;
-  m3x3.print();
+  std::cout << std::endl;  
+
+  // Test matrix transpose, cofactor, inverse.
+  Matrix m(3, 3);
+  for (int i = 0; i < 3; ++i) {
+    for (int j = 0; j < 3; ++j) {
+      m.el(i, j) = lookup1[i][j];
+    }
+  }
   
+  std::cout << "Matrix:\n";
+  m.print();
+  
+  std::cout << "Det: " << m.det() << std::endl;
 
-  std::cout << "Det: " << m3x3.det() << std::endl;
-
-  Matrix trans = m3x3.transpose();
-  std::cout << "Transpose: " << std::endl;
+  Matrix trans = m.transpose();
+  std::cout << "Transpose:\n";
   trans.print();
 
-  Matrix cofactor = m3x3.cofactor();
-  std::cout << "Cofactor: " << std::endl;
+  Matrix cofactor = m.cofactor();
+  std::cout << "Cofactor:\n";
   cofactor.print();
 
-  Matrix inverse = m3x3.inverse();
-  std::cout << "Inverse: " << std::endl;;
+  Matrix inverse = m.inverse();
+  std::cout << "Inverse:\n";;
   inverse.print();
 
-  Matrix i = m3x3.mul(inverse);
-  std::cout << "I: " << std::endl;
+  // Verify inverse is valid by the equation A^-1 A = I
+  Matrix i = m.mul(inverse);
+  std::cout << "I:\n";
   i.print();
 
+  // Set I to identity with function setIdentity()
   i.setIdentity();
-  std::cout << "I (generated): " << std::endl;
+  std::cout << "I (generated):\n";
   i.print();
 
+  std::cout << std::endl;
+
+  // Test assignment with resizing
   Matrix m2x2(2,2);
   
   for (int i = 0; i < 2; ++i) {
     for (int j = 0; j < 2; ++j) {
-      m2x2.el(i, j) = lookup2x2[(j+1)+(2*i)];
+      m2x2.el(i, j) = lookup4x2[i][j];
     }
   }
 
-  std::cout << "M(2x2): " << std::endl;
+  std::cout << "M(2x2):\n";
   m2x2.print();
   
-  m2x2.assign(m3x3);
-  std::cout << "M(2x2): " << std::endl;
+  m2x2.assign(m);
+  std::cout << "M(2x2):\n";
   m2x2.print();
-  
+
+  std::cout << std::endl;
+
+  // Test solveForX
+  Matrix a(3, 3);
+  Matrix b(3, 1);
+
+  for (int i = 0; i < 3; ++i) {
+    for (int j = 0; j < 4; ++j) {
+      a.el(i, j) = lookupa[i][j];
+    }
+  }
+
+  for (int i = 0; i < 3; ++i) {
+      b.el(i, 0) = lookupb[i];
+  }
+
+  Matrix x = a.solveForX(b);
+
+  std::cout << "A:\n";
+  a.print();
+  std::cout << "B:\n";
+  b.print();
+  std::cout << "X:\n";
+  x.print();
 }
