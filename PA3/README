@@ -1,0 +1,88 @@
+/**********************************************************************
+ *  README
+ **********************************************************************/
+
+Name: Dhesant Jogi Nakka  
+Nickname or English name: Dhesant
+Major: ECE
+Course: COMP2012H
+Email address: djnakka@connect.ust.hk
+Programming assignment #: 3
+OS: Ubuntu 14.04
+Compiler: g++ 4.8.4
+Hours spent: ~6
+
+/**********************************************************************
+ *  List of included files
+ **********************************************************************/
+Matrix.cpp	(Main file with Matrix functions)
+Matrix.h	(Header file for Matrix.cpp)
+main.cpp	(Compilation file which tests for different cases)
+Makefile  	(Makefile)
+README	        (Readme - this file)
+
+/**********************************************************************
+ *  Compilation Instructions
+ **********************************************************************/
+The program can be compiled with the Makefile, which outputs to the executable "matrix"
+
+/**********************************************************************
+ * Program sections that have been implemented
+ **********************************************************************/
+The program implements the following features;
+ - Matrix constructor and destructor for a m x n matrix.
+ - Matrix constructor that copies an existing matrix.
+ - Set the matrix to the identity matrix
+ - Set the matrix to all zeros
+ - Print the matrix to std::cout
+ 
+The program also implements common matrix functions, which are;
+  - Multiplcation of two matricies
+  - Transpose of the matrix
+  - Inverse of the matrix
+  - Determiant of the matrix
+  - Minor of the matrix
+  - Cofactor of the matrix
+
+/**********************************************************************
+ *  List whatever help (if any) that you received.
+ **********************************************************************/
+I have sought help from the following people: N/A
+I have read the following books: N/A
+I have consulted the following websites: 
+  www.cplusplus.com (for syntax of standard libraries)
+  http://www.mathwords.com/i/inverse_of_a_matrix.htm (for some matrix function algoritms)
+
+The work included in this program is all my own work (Y/N): Y
+
+/**********************************************************************
+ *  Explain your overall approach and the unique features of your program
+ **********************************************************************/
+ - The program dynamically allocates memory when constructing a new matrix, resulting in a low memory footprint, as an array of maximum dimension doesn't need to be generated for each matrix.
+ - The determinant is calculated through a recursive method of finding the determinant of a n-1 x n-1 minor matrix, until such a matrix is a 1x1 matrix, which allows for a functionally simple method to solve for determinant.
+ - The cofactor matrix is calculated using the minor and determinant functions, to find the cofactor of each element.
+ - The inverse is calculated using the Adjoint method, which first requires the cofactor matrix and the determinant of the matrix to be calculated. From there, the inverse can be found by multiplying the transpose of the cofactor matrix with the recriprocal of the matrix. The determinant, minor, and cofactor functions are made to be public functions to permit more advanced usage of the library.
+
+/**********************************************************************
+ *  Describe any serious problems your program has, or anything which
+ *  you have not implemented successfully
+ **********************************************************************/
+N/A
+
+/**********************************************************************
+ *  State the input files you used to test your program
+ **********************************************************************/
+main.cpp - This file has numerous test cases to test constructors, destructors, copy constructors, and all the standard matrix functions; transpose, inverse (through which cofactor, transpose, determinant, and minor functions are tested), and solveForX (through which multiplication, and inverse are tested), as well as useful matrix generators such as setIdentity and setZero are tested. The results are compared with tests using other platforms, i.e. MATLAB.
+
+/**********************************************************************
+ *  Known bugs / limitations of the program
+ **********************************************************************/
+It cannot solve Ax=B for non-square matricies of X
+
+
+/**********************************************************************
+ *  List any other comments here. Feel free to provide any feedback   
+ *  on how much you learned from doing the assignment, whether    
+ *  you like the assignment or not, and how the assignment may be
+ *  improved 
+ **********************************************************************/

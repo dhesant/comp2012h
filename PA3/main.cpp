@@ -48,6 +48,14 @@ int main() {
 
   std::cout << std::endl;  
 
+  // Test matrix copy constructor
+  Matrix mCopy(m4x4);
+  
+  std::cout << "Copy Matrix:\n";
+  mCopy.print();
+
+  std::cout << std::endl;
+
   // Test matrix transpose, cofactor, inverse.
   Matrix m(3, 3);
   for (int i = 0; i < 3; ++i) {
@@ -108,7 +116,7 @@ int main() {
   Matrix b(3, 1);
 
   for (int i = 0; i < 3; ++i) {
-    for (int j = 0; j < 4; ++j) {
+    for (int j = 0; j < 3; ++j) {
       a.el(i, j) = lookupa[i][j];
     }
   }

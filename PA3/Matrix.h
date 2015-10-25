@@ -9,19 +9,17 @@ class Matrix { // Matrix class
   double & el(int i, int j) const; // access (i, j)th element
   void assign(const Matrix & op); // copy values from op
   Matrix mul(const Matrix & op) const; // multiplication of matrices
-  Matrix transpose() const; // the transpose of matrix
-  Matrix inverse() const; // the inverse of matrix
+  Matrix transpose() const; // the transpose of the matrix
+  Matrix inverse() const; // the inverse of the matrix
 
   // Add your public member functions, if any, in the following
-  double det() const; // Get determinant of the matrix
+  double det() const; // the determinant of the matrix
   void print(); // Print the matrix to std::cout
-  Matrix getMinor(const int & minor_r, const int & minor_c) const; // Get the matrix without the (minor_r)'th row and the (minor_c)'th column
-  Matrix cofactor() const; // Get the cofactor matrix
-  Matrix solveForX(const Matrix & b) const;
-
-  // Set matrix to useful values
+  Matrix getMinor(const int & minor_r, const int & minor_c) const; // the matrix without the (minor_r)'th row and the (minor_c)'th column
+  Matrix cofactor() const; // the cofactor of the matrix
+  Matrix solveForX(const Matrix & b) const; // solve for x in Ax=B, where A is the matrix
   void setIdentity(); // Set the matrix to the identity matrix
-  void setZero();
+  void setZero(); // Set the matrix to all zeros
 
  private:
   double **elm; // matrix elements

@@ -52,15 +52,6 @@ int Matrix::cols() const {
 // Return the (i, j)th element of the matrix
 // Precondition: i and j are valid ranges
 double & Matrix::el(int i, int j) const {
-  if ( i < 0 || i >= r) {
-    double n = 0;
-    return n;
-  }
-  if ( j < 0 || j >= c) {
-    double n = 0;
-    return n;
-  }
-
   return elm[i][j];
 }
 
