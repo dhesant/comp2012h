@@ -32,17 +32,19 @@ The program can be compiled with the Makefile, which outputs to the executable "
 The program implements the following features;
  - Matrix constructor and destructor for a m x n matrix.
  - Matrix constructor that copies an existing matrix.
- - Set the matrix to the identity matrix
- - Set the matrix to all zeros
- - Print the matrix to std::cout
  
 The program also implements common matrix functions, which are;
   - Multiplcation of two matricies
   - Transpose of the matrix
   - Inverse of the matrix
-  - Determiant of the matrix
-  - Minor of the matrix
-  - Cofactor of the matrix
+
+The following extra functions have been implemented;
+ - Set the matrix to the identity matrix
+ - Set the matrix to all zeros
+ - Print the matrix to std::cout
+ - Determiant of the matrix
+ - Minor of the matrix
+ - Cofactor of the matrix
 
 /**********************************************************************
  *  List whatever help (if any) that you received.
