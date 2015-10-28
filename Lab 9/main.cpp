@@ -41,6 +41,7 @@ int main() {
     intCost = -1;		
 
     list.Print();
+    list.PrintReverse();
     cout << "Station > ";
 
     cin >> strStation;
@@ -48,7 +49,7 @@ int main() {
     //Exit
     if (strStation == "q" || strStation == "Q")
       break;
-    intCost = list.Access(strStation);
+    intCost = list.AccessIgnoreCase(strStation);
     if (intCost != -1) {
       cout << intCost <<"\n\n";
     } else {
