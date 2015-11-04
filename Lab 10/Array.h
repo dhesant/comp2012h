@@ -5,7 +5,7 @@
 
 using namespace std;
 
-typedef int T;
+typedef string T;
 
 class Array
 {
@@ -37,7 +37,7 @@ public:
     // TO DO: implement the overload operator plus equal +=, its declaration included
     // append an Array object to the end of another Array object.
     // assign this appended result to this Array
-
+    Array& operator+=(const Array& arr);
 
 /* Methods */
     void Append (const T& item);

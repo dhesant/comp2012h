@@ -93,11 +93,27 @@ T Array::operator[](int index) const {
 
 // TO DO: implement the operator "+="
 // ... 
-/*
-  Array& operator+=(const Array& arr) {
-  assert(arr.IsValid ());
+Array& Array::operator+=(const Array& arr) {
+  if (!arr.IsValid ()) {
+    return *this;
   }
-*/
+
+  T* temp = new T [_size + arr.Size()];
+  
+  for (int i = 0; i < _size; ++i) {
+    temp[i] = _data[i];
+  }
+  for (int i = 0; i < arr.Size(); ++i) {
+    temp[_size+i] = arr[i];
+  }
+
+  delete [] _data;
+  _data = temp;
+  _size += arr.Size();
+
+  return *this;
+}
+
 // ...
 // End operator +=
 
