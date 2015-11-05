@@ -32,9 +32,13 @@ public:
 	 * Description:
 	 * 		to_string method will output the current number to str.
 	 */
-	void to_string(char *str);
+	void to_string(char *str) const;
 
 	/* #### Please add your overloading methods below. #### */
+
+	
+	void print();
+
 
 private:
 	vector<unsigned short> abs_value;
