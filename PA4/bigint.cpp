@@ -72,6 +72,22 @@ void BigInt::to_string(char *str) const {
   std::strcpy(str, s.c_str());
 }
 
+void BigInt::to_string(char *str) {
+  std::string s = "";
+  
+  if (sign == '-') {
+    s.append("-");
+  }
+
+  for (std::vector<unsigned short>::const_iterator it = abs_value.begin(); it != abs_value.end(); ++it) {
+    char str[2];
+    sprintf(str, "%02d", *it);
+    s.append(str);
+  }
+
+  std::strcpy(str, s.c_str());
+}
+
 void BigInt::print() {
   char str[MAX_LENGTH];
   to_string(str);
