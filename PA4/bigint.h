@@ -36,16 +36,49 @@ class BigInt {
   void to_string(char *str) const;
 
   /* #### Please add your overloading methods below. #### */
+  const BigInt& operator=(const BigInt &in);
+
+  const BigInt operator++(int);
+  const BigInt& operator++();
+  const BigInt operator--(int);
+  const BigInt& operator--();
+
+  const BigInt& operator+=(const BigInt &in);
+  const BigInt& operator-=(const BigInt &in);
+  const BigInt& operator*=(const BigInt &in);
+  const BigInt& operator/=(const BigInt &in);
+  const BigInt& operator%=(const BigInt &in);
+
+  friend const BigInt operator+(const BigInt &in1, const BigInt &in2);
+  friend const BigInt operator-(const BigInt &in1, const BigInt &in2);
+  friend const BigInt operator*(const BigInt &in1, const BigInt &in2);
+  friend const BigInt operator/(const BigInt &in1, const BigInt &in2);
+  friend const BigInt operator%(const BigInt &in1, const BigInt &in2);
+
+  friend const bool operator==(const BigInt &in1, const BigInt &in2);
+  friend const bool operator!=(const BigInt &in1, const BigInt &in2);
+  friend const bool operator>(const BigInt &in1, const BigInt &in2);
+  friend const bool operator<(const BigInt &in1, const BigInt &in2);
+  friend const bool operator>=(const BigInt &in1, const BigInt &in2);
+  friend const bool operator<=(const BigInt &in1, const BigInt &in2);
 
   // Helper functions	
-  void print();
+  void print() const;
   unsigned int getSize() const;
   unsigned int getLength() const;
-  void normalize();
+
+  // Check if function is any useful values
+  bool isNegative() const;
+  bool isZero() const;
 
  private:
   vector<unsigned short> abs_value;
   char sign;
+
+  void increment();
+  void decrement();
+  void normalize();
+  void flipSign();
 };
 
 #endif /* BIGINT_H_ */
