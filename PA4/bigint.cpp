@@ -30,6 +30,7 @@ BigInt::BigInt(int i) {
 }
 
 BigInt::BigInt(const BigInt &bi) {
+  // Copy 
   sign = bi.sign;
   abs_value = bi.abs_value;
 }
@@ -220,6 +221,16 @@ void BigInt::decrement() {
   }
   normalize();
 
+}
+
+const BigInt& BigInt::operator+() {
+  return *this;
+}
+
+const BigInt BigInt::operator-() {
+  BigInt bi(*this);
+  bi.flipSign();
+  return bi;
 }
 
 const BigInt& BigInt::operator=(const BigInt &in) {
@@ -457,4 +468,3 @@ std::istream& operator>>(std::istream &is, BigInt &in) {
   in.normalize();
   return is;
 }
-

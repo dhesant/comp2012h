@@ -37,6 +37,9 @@ class BigInt {
   void to_string(char *str) const;
 
   /* #### Please add your overloading methods below. #### */
+  const BigInt& operator+();
+  const BigInt operator-();
+
   const BigInt& operator=(const BigInt &in);
 
   const BigInt operator++(int);
