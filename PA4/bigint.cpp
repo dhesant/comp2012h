@@ -352,6 +352,25 @@ const BigInt& BigInt::operator%=(const BigInt &in) {
   return *this;
 }
 
+const BigInt& BigInt::operator<<=(const BigInt &in) {
+  BigInt counter;
+  while (counter < in) {
+    *this *= 2;
+    counter++;
+  }
+  return *this;
+}
+
+const BigInt& BigInt::operator>>=(const BigInt &in) {
+  BigInt counter;
+  while (counter < in) {
+    *this /= 2;
+    counter++;
+  }
+  return *this;
+  
+}
+
 const BigInt operator+(const BigInt &in1, const BigInt &in2) {
   BigInt out(in1);
   out += in2;
@@ -379,6 +398,18 @@ const BigInt operator/(const BigInt &in1, const BigInt &in2) {
 const BigInt operator%(const BigInt &in1, const BigInt &in2) {
   BigInt out(in1);
   out %= in2;
+  return out;
+}
+
+const BigInt operator<<(const BigInt &in1, const BigInt &in2) {
+  BigInt out(in1);
+  out <<= in2;
+  return out;
+}
+
+const BigInt operator>>(const BigInt &in1, const BigInt &in2) {
+  BigInt out(in1);
+  out >>= in2;
   return out;
 }
 
@@ -426,3 +457,4 @@ std::istream& operator>>(std::istream &is, BigInt &in) {
   in.normalize();
   return is;
 }
+

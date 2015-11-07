@@ -82,13 +82,20 @@ bool test_comparison() {
   return bi1 < bi2;
 }
 
-bool test_shift() {
+bool test_lshift() {
   // 1000<<2
-  //	BigInt bi("1000");
-  //	BigInt result = bi << 2;
-  //	result.to_string(str);
-  //	return strcmp(str, "4000") == 0;
-  return 0;
+  BigInt bi("1000");
+  BigInt result = bi << 2;
+  result.to_string(str);
+  return strcmp(str, "4000") == 0;
+}
+
+bool test_rshift() {
+  // 1000>>2
+  BigInt bi("1000");
+  BigInt result = bi >> 2;
+  result.to_string(str);
+  return strcmp(str, "250") == 0;
 }
 
 bool test_ostream() {
@@ -119,5 +126,6 @@ int main() {
   cout << "comparison: " << test_comparison() << endl;
   cout << "ostream: " << test_ostream() << endl;
   cout << "istream: " << test_istream() << endl;
-  cout << "shift: " << test_shift() << endl;
+  cout << "lshift: " << test_lshift() << endl;
+  cout << "rshift: " << test_rshift() << endl;
 }

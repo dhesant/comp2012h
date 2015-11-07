@@ -49,12 +49,18 @@ class BigInt {
   const BigInt& operator*=(const BigInt &in);
   const BigInt& operator/=(const BigInt &in);
   const BigInt& operator%=(const BigInt &in);
+  
+  const BigInt& operator<<=(const BigInt &in);
+  const BigInt& operator>>=(const BigInt &in);
 
   friend const BigInt operator+(const BigInt &in1, const BigInt &in2);
   friend const BigInt operator-(const BigInt &in1, const BigInt &in2);
   friend const BigInt operator*(const BigInt &in1, const BigInt &in2);
   friend const BigInt operator/(const BigInt &in1, const BigInt &in2);
   friend const BigInt operator%(const BigInt &in1, const BigInt &in2);
+
+  friend const BigInt operator<<(const BigInt &in1, const BigInt &in2);
+  friend const BigInt operator>>(const BigInt &in1, const BigInt &in2);
 
   friend const bool operator==(const BigInt &in1, const BigInt &in2);
   friend const bool operator!=(const BigInt &in1, const BigInt &in2);
