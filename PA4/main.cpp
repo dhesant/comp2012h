@@ -97,7 +97,6 @@ bool test_ostream() {
   BigInt bi("1000");
   ss << bi;
   return strcmp(ss.str().c_str(), "1000") == 0;
-  return 0;
 }
 
 bool test_istream() {
@@ -107,10 +106,7 @@ bool test_istream() {
   ss >> bi;
   bi.to_string(str);
   return strcmp(str, "1000") == 0;
-  return 0;
 }
-
-
 
 int main() {
   cout << "addition: " << test_addition() << endl;
