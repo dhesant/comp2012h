@@ -290,45 +290,66 @@ const BigInt& BigInt::operator*=(const BigInt &in) {
   BigInt result;
   if (in.isNegative()) {
     while (counter > in) {
-      result -= (*this);
+      result -= *this;
       counter--;
     }
   }
   else {
     while (counter < in) {
-      result += (*this);
+      result += *this;
       counter++;
     }
   }
-  (*this) = result;
+  *this = result;
   return *this;
 }
 
 const BigInt& BigInt::operator/=(const BigInt &in) {
   BigInt counter;
+
   if (isNegative()) {
-    while ((*this) < in) {
-      (*this) -= in;
-      counter--;
+    if (in.isNegative()) {
+      // Both negative
+      while (*this <= in) {
+	*this -= in;
+	counter++;
+      }
+    }
+    else {
+      // divided negative, dividened positive
+      flipSign();
+      while (*this >= in) {
+	*this -= in;
+	counter--;
+      }
     }
   }
   else {
-    while ((*this) > in) {
-      (*this) += in;
-      counter++;
+    if (in.isNegative()) {
+      // divided positive, dividend negative
+      flipSign();
+      while (*this <= in) {
+	*this -= in;
+	counter--;
+      }
+    }
+    else {
+      // both positive
+      while (*this >= in) {
+	*this -= in;
+	counter++;
+      }
     }
   }
-  (*this) = counter;
+
+  *this = counter;
   return *this;
 }
 
 const BigInt& BigInt::operator%=(const BigInt &in) {
   BigInt divisor = (*this) / in;
-  divisor.print();
   BigInt quotient = divisor * in;
-  quotient.print();
-  (*this) -= quotient;
-  this->print();
+  *this -= quotient;
   return *this;
 }
 
@@ -375,7 +396,7 @@ const bool operator!=(const BigInt &in1, const BigInt &in2) {
 const bool operator>(const BigInt &in1, const BigInt &in2) {
   BigInt temp(in1);
   temp -= in2;
-  return (!(temp.isNegative()));
+  return (!(temp.isNegative() || temp.isZero()));
 }
 
 const bool operator>=(const BigInt &in1, const BigInt &in2) {
@@ -385,7 +406,7 @@ const bool operator>=(const BigInt &in1, const BigInt &in2) {
 const bool operator<(const BigInt &in1, const BigInt &in2) {
   BigInt temp(in1);
   temp -= in2;
-  return (temp.isNegative());
+  return (temp.isNegative() && !(temp.isZero()));
 }
 
 const bool operator<=(const BigInt &in1, const BigInt &in2) {
