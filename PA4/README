@@ -17,7 +17,8 @@ Hours spent: 10
 **********************************************************************/
 bigint.h	(header file for the BigInt class)
 bigint.cpp	(source file for the BigInt class)
-main.cpp	(Compilation file which tests for different cases)
+main.cpp	(compilation file which tests different simple arithmetic cases)
+bool.cpp	(compilation file which tests different boolean cases)
 Makefile  	(Makefile)
 README	        (Readme - this file)
 
