@@ -1,7 +1,7 @@
 CC=g++
 CFLAGS=-c -Wall
 LDFLAGS=
-SOURCES=main2.cpp bigint.cpp
+SOURCES=main.cpp bigint.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=bigint
 

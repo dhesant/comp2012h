@@ -6,7 +6,6 @@
 #include <cstdlib>
 #include <cstdio>
 #include <cstring>
-#include <iostream>
 
 /*****************************/
 /* Constructor & Destructors */
@@ -399,16 +398,31 @@ const bool operator>(const BigInt &in1, const BigInt &in2) {
   return (!(temp.isNegative() || temp.isZero()));
 }
 
-const bool operator>=(const BigInt &in1, const BigInt &in2) {
-  return (in1 > in2 || in1 == in2);
-}
-
 const bool operator<(const BigInt &in1, const BigInt &in2) {
   BigInt temp(in1);
   temp -= in2;
   return (temp.isNegative() && !(temp.isZero()));
 }
 
+const bool operator>=(const BigInt &in1, const BigInt &in2) {
+  return (in1 > in2 || in1 == in2);
+}
+
 const bool operator<=(const BigInt &in1, const BigInt &in2) {
   return (in1 < in2 || in1 == in2);
+}
+
+std::ostream& operator<<(std::ostream &os, const BigInt &in) {
+  char* str = new char [in.getLength()];
+  in.to_string(str);
+  os << str;
+  return os;
+}
+
+std::istream& operator>>(std::istream &is, BigInt &in) {
+  std::string s;
+  std::getline(is, s);
+  in.from_string(s.c_str());
+  in.normalize();
+  return is;
 }

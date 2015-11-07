@@ -6,6 +6,7 @@
 #define BIGINT_H_
 
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
@@ -61,6 +62,9 @@ class BigInt {
   friend const bool operator<(const BigInt &in1, const BigInt &in2);
   friend const bool operator>=(const BigInt &in1, const BigInt &in2);
   friend const bool operator<=(const BigInt &in1, const BigInt &in2);
+
+  friend std::ostream& operator<<(std::ostream &os, const BigInt &in);
+  friend std::istream& operator>>(std::istream &is, BigInt &in);
 
   // Helper functions	
   void print() const;
