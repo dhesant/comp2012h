@@ -1,0 +1,126 @@
+/**********************************************************************
+*  README
+**********************************************************************/
+
+Name: Dhesant Jogi Nakka  
+Nickname or English name: Dhesant
+Major: ECE
+Course: COMP2012H
+Email address: djnakka@connect.ust.hk
+Programming assignment #: 4
+OS: Ubuntu 14.04
+Compiler: g++ 4.8.4
+Hours spent: 10
+
+/**********************************************************************
+*  List of included files
+**********************************************************************/
+bigint.h	(header file for the BigInt class)
+bigint.cpp	(source file for the BigInt class)
+main.cpp	(Compilation file which tests for different cases)
+Makefile  	(Makefile)
+README	        (Readme - this file)
+
+/**********************************************************************
+*  Compilation Instructions
+**********************************************************************/
+The program can be compiled with the Makefile, which outputs to the executable "bigint"
+
+/**********************************************************************
+* Program sections that have been implemented
+**********************************************************************/
+The program implements the following constructors
+ - Default constructor where BigInt = 0
+ - Copy constructor from another BigInt
+ - Import constructor from a number formatted as a string (e.g. "-1000")
+ - Import constructor from a number formatted as an integer (e.g. -1000)
+ - Standard destructor
+
+The program implements the following operators;
++, - (unary arithmetic operators)
++, -, *, /, %, +=, -=, *=, /=, %= (binary arithmetic operators)
+<<, >>, <<=, >>= (bit shifting operators)
+<<, >> (iostream operators)
+==, !=, <, <=, >, >= (boolean unary operators)
+
+/**********************************************************************
+*  List whatever help (if any) that you received.
+**********************************************************************/
+I have sought help from the following people: N/A
+I have read the following books: N/A
+I have consulted the following websites: 
+www.cplusplus.com (for syntax of standard libraries)
+http://www.mathwords.com/i/inverse_of_a_matrix.htm (for some matrix function algoritms)
+
+The work included in this program is all my own work (Y/N): Y
+
+/**********************************************************************
+*  Explain your overall approach and the unique features of your program
+**********************************************************************/
+The constructors mostly utilize the 'from_string()' function to streamline the code process, using the string "0" for the default constructor, and converting int i to a string for the interger constructor.
+The destructor is left as the default since no memory is allocated with new in the constructors.
+
+The 'from_string()' function utilizes a lot of standard library functions to simplify the process.
+    By converting the input from a char array to a std::string, the std::string functions can be used.
+    - The input string is checked for non-numeric or sign characters first, to ensure valid input.
+    - The sign is then set according to the first character, and is then removed from the string.
+    - The input string is checked again for non-numeric characters (including signs), to ensure valid input.
+    - The input string is then padded to ensure it has a length that is a multiple of two.
+    - The string is then split into as many 2 character long substrings as possible, then each is converted into a vector, and pushed back to the vector abs_value.
+
+The 'to_string()' function also utilizes a lot of standard library functions to simplify the process.
+    By first using a std::string, the standard std::string functions can be used.
+    - Each of the values in the vector abs_value is added to the end of the output string.
+    - If there is a leading 0 caused by the padding, it is removed.
+    - If the sign is negative, a '-' character is added to the front of the string.
+    - The string is then copied to the char array using the 'strcpy(...)' and 'c_str()' functions.
+
+Some public helper functions are created that are useful for the end user.
+ - print() writes BigInt to std::cout.
+ - getSize() gets the number of elements in the vector abs_value, to aid with raw vector manipulation.
+ - getLength() gets the length of the string that the BigInt represents.
+ - isZero() returns true if the BigInt is 0.
+ - isNegative() returns true if the BigInt is negative.
+
+Some private helper functions are created to reduce the amount of 'copy-paste' programming
+ - increment() to add 1 to the BigInt  (used to implement both prefix and postfix ++ operators).
+ - increment() to subtract 1 from the BigInt  (used to implement both prefix and postfix -- operators).
+ - normalize() to sanitize the BigInt when the individual elements overflow. (Fix for negative overflows and positive (>=100) overflows).
+ - flipSign() to change the BigInt from positive to negative or negative to positive depending.
+
+To simplify the implementation of the BigInt, the operators are made by using iterativly using simpler opeators.
+ - the += & -= opeators are made by repeating the ++ & -- operator respectivly for the value specified in the input.
+ - the *= & / operators are made by repeaeting the += & -= operator respectivly for the value specified in the input.
+ - the %= operator is made by utilizing the * and / operator.
+ - the <<= & >>= operators are made by *= and /= by 2 respectivly for the value specified in the input.
+ - the +, -, *, /, %, <<, and >> inputs are made by utilizing the +=, -=, *=, /=, %=, <<=, and >>= inputs respectivly. (reducing copy-paste coding)
+ - the boolean operators == & != are made by comparing the strings generated with 'from_string()'
+ - the boolean operators < and > are made by using the the operator -, and the helper functions 'isZero()' and 'isNegative()'
+ - the boolean operators <= and >= are made using the <, > and == operators.
+ - the iostream operators (<<, >>) are made by using the 'from_string()' and 'to_string()' functions defined earlier.
+
+The number of functions that need to be implemented can be reduced through the use of global functions, this allows constructors to be used to automatically convert string and ints to BigInts for use with the normal BigInt operators that have already been defined.
+
+/**********************************************************************
+*  Describe any serious problems your program has, or anything which
+*  you have not implemented successfully
+**********************************************************************/
+N/A
+
+/**********************************************************************
+*  State the input files you used to test your program
+**********************************************************************/
+main.cpp - This file is slightly modified to test the a simple case of the basic operators (+, -, *, /, %, =, ++, ==, <<, >> (shifting), <<, >> (streaming)).
+bool.cpp - This file tests the multiple cases of the boolean comparision operators (==, !=, <=, >=, <, >).
+
+/**********************************************************************
+*  Known bugs / limitations of the program
+**********************************************************************/
+The program is very slow at calculating large values of BigInt, because it uses an inefficient method to calculate * and / (iterative addition/subtraction).
+
+/**********************************************************************
+*  List any other comments here. Feel free to provide any feedback   
+*  on how much you learned from doing the assignment, whether    
+*  you like the assignment or not, and how the assignment may be
+*  improved 
+**********************************************************************/
