@@ -9,6 +9,7 @@ class ArmyAntQueen: public Animal {
   virtual ~ArmyAntQueen();
 
   virtual void attack();
+  virtual void defend(Animal* opponent, int damage);
 
  private:
   static const int MAX_HP = 15;

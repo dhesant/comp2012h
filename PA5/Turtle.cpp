@@ -31,3 +31,7 @@ void Turtle::attack()
       }
   }
 }
+
+void Turtle::defend(Animal* opponent, int damage) {
+  takeDamage(0.5*damage);
+}

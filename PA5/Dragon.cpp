@@ -13,21 +13,12 @@ Dragon::~Dragon() {
 
 void Dragon::attack()
 {
-  if(!enemies[pos]->isDead())
-    enemies[pos]->defend(this, atk_damage);
-  else {
-    for(int i = 1; i < 5; i++)
-      {
-	if(pos-i >= 0 && !enemies[pos-i]->isDead())
-	  {
-	    enemies[pos-i]->defend(this, atk_damage);
-	    break;
-	  }
-	else if(pos+i < 5 && !enemies[pos+i]->isDead())
-	  {
-	    enemies[pos+i]->defend(this, atk_damage);
-	    break;
-	  }
-      }
+  for (int i = -1; i <= 1; ++i) {
+    if (pos-i >=0 && pos-i < 5)
+      enemies[pos-i]->defend(this, atk_damage);
   }
+}
+
+void Dragon::defend(Animal* opponent, int damage) {
+  takeDamage(0.8*damage);
 }

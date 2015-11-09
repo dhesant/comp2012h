@@ -30,4 +30,11 @@ void Bat::attack()
 	  }
       }
   }
+
+  if (!isDead() && hp < MAX_HP)
+    hp++;
+}
+
+void Bat::defend(Animal* opponent, int damage) {
+  takeDamage(0.8*damage);
 }

@@ -34,7 +34,6 @@ void Hawk::attack()
 
 void Hawk::defend(Animal* opponent, int damage) {
   takeDamage(0.7*damage);
-  if (!isDead()) {
+  if (!isDead())
     opponent->takeDamage(1);
-  }
 }
