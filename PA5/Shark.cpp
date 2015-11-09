@@ -31,10 +31,10 @@ void Shark::attack()
       }
   }
 
-  hp--;
+  takeDamage(1);
 }
 
-void defend(Animal* opponent, int damage) {
+void Shark::defend(Animal* opponent, int damage) {
   takeDamage(damage);
   if (!isDead())
     opponent->takeDamage(2);

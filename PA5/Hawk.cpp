@@ -14,7 +14,7 @@ Hawk::~Hawk() {
 void Hawk::attack()
 {
   if(!enemies[pos]->isDead())
-    enemies[pos]->defend(this, atk_damage);
+    enemies[pos]->takeDamage(atk_damage);
   else {
     for(int i = 1; i < 5; i++)
       {
