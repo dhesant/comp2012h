@@ -1,17 +1,17 @@
-#include "Dog.h"
+#include "ArmyAntQueen.h"
 
-Dog::Dog(Game* game, int player, int position): Animal(game,player,position){
+ArmyAntQueen::ArmyAntQueen(Game* game, int player, int position): Animal(game,player,position){
   hp = MAX_HP;
   atk_damage = DEFAULT_ATK_DAMAGE;
-  name = "Dog";
+  name = "ArmyAntQueen";
 
 }
 
-Dog::~Dog() {
+ArmyAntQueen::~ArmyAntQueen() {
 	
 }
 
-void Dog::attack()
+void ArmyAntQueen::attack()
 {
   if(!enemies[pos]->isDead())
     enemies[pos]->defend(this, atk_damage);
