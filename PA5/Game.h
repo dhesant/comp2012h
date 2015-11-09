@@ -22,7 +22,13 @@ public:
 	 * You may add data members and functions to this class to help you implement the Special Moves part.
 	 */
 
-	 
+	int countFlying(int player);
+	int countSwimming(int player);
+	int countArmyAnt(int player);
+};
+
+struct Type {
+  enum AnimalTypes { NORMAL, FLYING, SWIMMING, ANT };
 };
 
 #endif /* GAME_H_ */

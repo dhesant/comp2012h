@@ -1,5 +1,5 @@
-#ifndef ARMYANT_H_
-#define ARMYANT_H_
+#ifndef ARMY_ANT_H_
+#define ARMY_ANT_H_
 
 #include "Animal.h"
 
@@ -10,9 +10,12 @@ class ArmyAnt: public Animal {
 
   virtual void attack();
 
+  virtual void marchAndConquer();
+  void heal(int heal_amount);
+
  private:
   static const int MAX_HP = 15;
   static const int DEFAULT_ATK_DAMAGE = 1;
 };
 
-#endif /* ARMYANT_H_ */
+#endif /* ARMY_ANT_H_ */

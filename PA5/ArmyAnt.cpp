@@ -3,8 +3,8 @@
 ArmyAnt::ArmyAnt(Game* game, int player, int position): Animal(game,player,position){
   hp = MAX_HP;
   atk_damage = DEFAULT_ATK_DAMAGE;
-  name = "ArmyAnt";
-
+  name = "Army Ant";
+  type = Type::ANT;
 }
 
 ArmyAnt::~ArmyAnt() {
@@ -31,3 +31,20 @@ void ArmyAnt::attack()
       }
   }
 }
+
+void ArmyAnt::marchAndConquer() {
+  for (int i = 0; i < 5; ++i) {
+    enemies[i]->takeDamage(3);
+  }    
+}
+
+void ArmyAnt::heal(int heal_amount) {
+  if (!isDead()) {
+    hp += heal_amount;
+    if (hp > MAX_HP)
+      hp = MAX_HP;
+  }
+}
+
+
+

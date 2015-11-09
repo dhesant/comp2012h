@@ -4,7 +4,7 @@ Bat::Bat(Game* game, int player, int position): Animal(game,player,position){
   hp = MAX_HP;
   atk_damage = DEFAULT_ATK_DAMAGE;
   name = "Bat";
-
+  type = Type::FLYING;
 }
 
 Bat::~Bat() {
@@ -37,4 +37,11 @@ void Bat::attack()
 
 void Bat::defend(Animal* opponent, int damage) {
   takeDamage(0.8*damage);
+}
+
+void Bat::harass() {
+  for (int i = 0; i < 5; ++i)
+    enemies[i]->takeDamage(1);
+  if (!isDead() && hp < MAX_HP)
+    hp++;
 }

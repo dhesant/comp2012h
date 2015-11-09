@@ -4,6 +4,7 @@ Hawk::Hawk(Game* game, int player, int position): Animal(game,player,position){
   hp = MAX_HP;
   atk_damage = DEFAULT_ATK_DAMAGE;
   name = "Hawk";
+  type = Type::FLYING;
 
 }
 
@@ -36,4 +37,9 @@ void Hawk::defend(Animal* opponent, int damage) {
   takeDamage(0.7*damage);
   if (!isDead())
     opponent->takeDamage(1);
+}
+
+void Hawk::harass() {
+  for (int i = 0; i < 5; ++i)
+    enemies[i]->takeDamage(1);
 }

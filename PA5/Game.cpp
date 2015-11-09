@@ -119,7 +119,21 @@ void Game::start()
        * To-Do 2: Codes for Special moves (if any) should be written here
        * Hint: You should use dynamic binding, you may add data members/ functions in the Game class to help you implement this part
        */
-
+      
+      if (countFlying(currentPlayer) > 2)
+	std::cout << "Player " << currentPlayer+1 << " has harassed the other player." << std::endl;
+	for (int i = 0; i < 5; ++i)
+	  animals[currentPlayer][i]->harass();
+      
+      if (countSwimming(currentPlayer) > 2)
+	std::cout << "Player " << currentPlayer+1 << " has summoned a Tsunami." << std::endl;
+	for (int i = 0; i < 5; ++i)
+	  animals[currentPlayer][i]->summonTsunami();
+      
+      if (countArmyAnt(currentPlayer) >= 5)
+	std::cout << "Player " << currentPlayer+1 << "'s Ant Army has marched and conquered." << std::endl;
+	for (int i = 0; i < 5; ++i)
+	  animals[currentPlayer][i]->marchAndConquer();
 
       //Output turn info
       cout << "Turn " << turnCount++ << " Player " << currentPlayer+1 << " attacks:" << endl;
@@ -154,3 +168,30 @@ void Game::start()
 	currentPlayer = P1;
     }
 }			    
+
+int Game::countFlying(int player) {
+  int count = 0;
+  for (int i = 0; i < 5; ++i) {
+    if (animals[player][i]->getType() == Type::FLYING)
+      count++;
+  }
+  return count;
+}
+
+int Game::countSwimming(int player) {
+  int count = 0;
+  for (int i = 0; i < 5; ++i) {
+    if (animals[player][i]->getType() == Type::SWIMMING)
+      count++;
+  }
+  return count;
+}
+
+int Game::countArmyAnt(int player) {
+  int count = 0;
+  for (int i = 0; i < 5; ++i) {
+    if (animals[player][i]->getType() == Type::ANT)
+      count++;
+  }
+  return count;
+}

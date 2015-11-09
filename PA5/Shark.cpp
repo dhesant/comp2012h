@@ -4,7 +4,7 @@ Shark::Shark(Game* game, int player, int position): Animal(game,player,position)
   hp = MAX_HP;
   atk_damage = DEFAULT_ATK_DAMAGE;
   name = "Shark";
-
+  type = Type::SWIMMING;
 }
 
 Shark::~Shark() {
@@ -38,4 +38,10 @@ void Shark::defend(Animal* opponent, int damage) {
   takeDamage(damage);
   if (!isDead())
     opponent->takeDamage(2);
+}
+
+void Shark::summonTsunami() {
+  for (int i = 0; i < 5; ++i)
+    enemies[i]->takeDamage(2);
+  takeDamage(2);
 }
