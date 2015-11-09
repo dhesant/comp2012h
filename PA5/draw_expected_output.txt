@@ -1,0 +1,81 @@
+Turn 1 Player 1 attacks:
+Player 1
+Turtle:33 Cat:23 Dog:30 Dog:30 Dog:30 
+Player 2
+Shark:28 Shark:24 Dog:25 Dog:25 Dog:25 
+Turn 2 Player 2 attacks:
+Player 1
+Turtle:30 Cat:16 Dog:25 Dog:25 Dog:25 
+Player 2
+Shark:27 Shark:23 Dog:25 Dog:25 Dog:25 
+Turn 3 Player 1 attacks:
+Player 1
+Turtle:28 Cat:14 Dog:25 Dog:25 Dog:25 
+Player 2
+Shark:25 Shark:17 Dog:20 Dog:20 Dog:20 
+Turn 4 Player 2 attacks:
+Player 1
+Turtle:25 Cat:7 Dog:20 Dog:20 Dog:20 
+Player 2
+Shark:24 Shark:16 Dog:20 Dog:20 Dog:20 
+Turn 5 Player 1 attacks:
+Player 1
+Turtle:23 Cat:5 Dog:20 Dog:20 Dog:20 
+Player 2
+Shark:22 Shark:7 Dog:15 Dog:15 Dog:15 
+Turn 6 Player 2 attacks:
+Player 1
+Turtle:20 Cat:DEAD Dog:15 Dog:15 Dog:15 
+Player 2
+Shark:21 Shark:6 Dog:15 Dog:15 Dog:15 
+Turn 7 Player 1 attacks:
+Player 1
+Turtle:18 Cat:DEAD Dog:15 Dog:15 Dog:15 
+Player 2
+Shark:19 Shark:6 Dog:10 Dog:10 Dog:10 
+Turn 8 Player 2 attacks:
+Player 1
+Turtle:12 Cat:DEAD Dog:10 Dog:10 Dog:10 
+Player 2
+Shark:18 Shark:5 Dog:10 Dog:10 Dog:10 
+Turn 9 Player 1 attacks:
+Player 1
+Turtle:10 Cat:DEAD Dog:10 Dog:10 Dog:10 
+Player 2
+Shark:16 Shark:5 Dog:5 Dog:5 Dog:5 
+Turn 10 Player 2 attacks:
+Player 1
+Turtle:4 Cat:DEAD Dog:5 Dog:5 Dog:5 
+Player 2
+Shark:15 Shark:4 Dog:5 Dog:5 Dog:5 
+Turn 11 Player 1 attacks:
+Player 1
+Turtle:2 Cat:DEAD Dog:5 Dog:5 Dog:5 
+Player 2
+Shark:13 Shark:4 Dog:DEAD Dog:DEAD Dog:DEAD 
+Turn 12 Player 2 attacks:
+Player 1
+Turtle:DEAD Cat:DEAD Dog:DEAD Dog:5 Dog:5 
+Player 2
+Shark:12 Shark:3 Dog:DEAD Dog:DEAD Dog:DEAD 
+Turn 13 Player 1 attacks:
+Player 1
+Turtle:DEAD Cat:DEAD Dog:DEAD Dog:5 Dog:3 
+Player 2
+Shark:7 Shark:DEAD Dog:DEAD Dog:DEAD Dog:DEAD 
+Turn 14 Player 2 attacks:
+Player 1
+Turtle:DEAD Cat:DEAD Dog:DEAD Dog:DEAD Dog:3 
+Player 2
+Shark:6 Shark:DEAD Dog:DEAD Dog:DEAD Dog:DEAD 
+Turn 15 Player 1 attacks:
+Player 1
+Turtle:DEAD Cat:DEAD Dog:DEAD Dog:DEAD Dog:1 
+Player 2
+Shark:1 Shark:DEAD Dog:DEAD Dog:DEAD Dog:DEAD 
+Turn 16 Player 2 attacks:
+Player 1
+Turtle:DEAD Cat:DEAD Dog:DEAD Dog:DEAD Dog:DEAD 
+Player 2
+Shark:DEAD Shark:DEAD Dog:DEAD Dog:DEAD Dog:DEAD 
+Draws!
