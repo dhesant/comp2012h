@@ -20,14 +20,21 @@ void Hawk::attack()
       {
 	if(pos-i >= 0 && !enemies[pos-i]->isDead())
 	  {
-	    enemies[pos-i]->defend(this, atk_damage);
+	    enemies[pos-i]->takeDamage(atk_damage);
 	    break;
 	  }
 	else if(pos+i < 5 && !enemies[pos+i]->isDead())
 	  {
-	    enemies[pos+i]->defend(this, atk_damage);
+	    enemies[pos+i]->takeDamage(atk_damage);
 	    break;
 	  }
       }
+  }
+}
+
+void Hawk::defend(Animal* opponent, int damage) {
+  takeDamage(0.7*damage);
+  if (!isDead()) {
+    opponent->takeDamage(1);
   }
 }

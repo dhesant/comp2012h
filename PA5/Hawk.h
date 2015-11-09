@@ -9,6 +9,7 @@ class Hawk: public Animal {
   virtual ~Hawk();
 
   virtual void attack();
+  virtual void defend(Animal* opponent, int damage);
 
  private:
   static const int MAX_HP = 25;

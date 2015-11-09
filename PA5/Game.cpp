@@ -44,20 +44,28 @@ void Game::load(std::string file)
 	  animals[c/5][c%5] = new Dog(this, c/5, c%5);
 	  break;
 	case CAT:
+	  animals[c/5][c%5] = new Cat(this, c/5, c%5);
 	  break;
 	case HAWK:
+	  animals[c/5][c%5] = new Hawk(this, c/5, c%5);
 	  break;
 	case BAT:
+	  animals[c/5][c%5] = new Bat(this, c/5, c%5);
 	  break;
 	case TURTLE:
+	  animals[c/5][c%5] = new Turtle(this, c/5, c%5);
 	  break;
 	case SHARK:
+	  animals[c/5][c%5] = new Shark(this, c/5, c%5);
 	  break;
 	case ARMY_ANT:
+	  animals[c/5][c%5] = new ArmyAnt(this, c/5, c%5);
 	  break;
 	case ARMY_ANT_QUEEN:
+	  animals[c/5][c%5] = new ArmyAntQueen(this, c/5, c%5);
 	  break;
 	case DRAGON:
+	  animals[c/5][c%5] = new Dragon(this, c/5, c%5);
 	  break;
 	}
 
