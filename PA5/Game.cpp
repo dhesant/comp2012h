@@ -2,8 +2,15 @@
 #include <fstream>
 
 #include "Game.h"
-#include "Animal.h"
 #include "Dog.h"
+#include "Cat.h"
+#include "Hawk.h"
+#include "Bat.h"
+#include "Turtle.h"
+#include "Shark.h"
+#include "ArmyAnt.h"
+#include "ArmyAntQueen.h"
+#include "Dragon.h"
 
 /*
  * Remember to include the header file of the animal classes here
