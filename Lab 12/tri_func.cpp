@@ -12,40 +12,40 @@ using namespace std;
 /////////
 
 SinFunc::SinFunc(double _scale):
-Func("sin", true), scale(_scale) { }
+  Func("sin", true), scale(_scale) { }
 
 double SinFunc::EvaluateAt(double d) const {
-	return scale * sin(d);
+  return scale * sin(d);
 }
 
 double SinFunc::DerivativeAt(double d) const {
-	return scale * cos(d);
+  return scale * cos(d);
 }
 
 void SinFunc::Print(ostream& os, double x) const {
-	const char* const T = "true";
-	const char* const F = "false";
+  const char* const T = "true";
+  const char* const F = "false";
 
-	os << "name = " << GetName() << endl
-		<< "is periodic = " << (IsPeriodic()? T: F) << endl
-		<< "value at " << x << " = ";
-		if(fabs(EvaluateAt(x)-DBL_MAX)<0.000001)
-            os << F<<endl;
-        else
-            os << EvaluateAt(x) << endl;
-	os << "is differentiable at " << x << " = "
-		<< (IsDifferentiable(x)? T: F) << endl;
+  os << "name = " << GetName() << endl
+     << "is periodic = " << (IsPeriodic()? T: F) << endl
+     << "value at " << x << " = ";
+  if(fabs(EvaluateAt(x)-DBL_MAX)<0.000001)
+    os << F<<endl;
+  else
+    os << EvaluateAt(x) << endl;
+  os << "is differentiable at " << x << " = "
+     << (IsDifferentiable(x)? T: F) << endl;
 
-	if (IsDifferentiable(x)) {
-		os << "derivative at " << x << " = " << DerivativeAt(x) << endl;
-	}
+  if (IsDifferentiable(x)) {
+    os << "derivative at " << x << " = " << DerivativeAt(x) << endl;
+  }
 }
 
 SinFunc* CreateSinFunc(ostream& os, istream& is) {
-	os << "scale? ";
-	double scale;
-	is >> scale;
-	return new SinFunc(scale);
+  os << "scale? ";
+  double scale;
+  is >> scale;
+  return new SinFunc(scale);
 }
 
 ///////////
@@ -53,39 +53,39 @@ SinFunc* CreateSinFunc(ostream& os, istream& is) {
 ///////////
 
 CosFunc::CosFunc(double _scale):
-SinFunc(_scale) { }
+  SinFunc(_scale) { }
 
 double CosFunc::EvaluateAt(double d) const {
-	//implement it
+  return SinFunc::EvaluateAt(ANGLE90 - d);
 }
 
 double CosFunc::DerivativeAt(double d) const {
-	//implement it
+  return -SinFunc::DerivativeAt(ANGLE90 - d);
 }
 
 void CosFunc::Print(ostream& os, double x) const {
-	const char* const T = "true";
-	const char* const F = "false";
+  const char* const T = "true";
+  const char* const F = "false";
 
-	os << "name = " << GetName() << endl
-		<< "is periodic = " << (IsPeriodic()? T: F) << endl
-		<< "value at " << x << " = ";
-		if(fabs(EvaluateAt(x)-DBL_MAX)<0.000001)
-            os << F<<endl;
-        else
-            os << EvaluateAt(x) << endl;
-	os << "is differentiable at " << x << " = "
-		<< (IsDifferentiable(x)? T: F) << endl;
+  os << "name = " << GetName() << endl
+     << "is periodic = " << (IsPeriodic()? T: F) << endl
+     << "value at " << x << " = ";
+  if(fabs(EvaluateAt(x)-DBL_MAX)<0.000001)
+    os << F<<endl;
+  else
+    os << EvaluateAt(x) << endl;
+  os << "is differentiable at " << x << " = "
+     << (IsDifferentiable(x)? T: F) << endl;
 
-	if (IsDifferentiable(x)) {
-		os << "derivative at " << x << " = " << DerivativeAt(x) << endl;
-	}
+  if (IsDifferentiable(x)) {
+    os << "derivative at " << x << " = " << DerivativeAt(x) << endl;
+  }
 }
 
 CosFunc* CreateCosFunc(ostream& os, istream& is) {
-	os << "scale? ";
-	double scale;
-	is >> scale;
-	return new CosFunc(scale);
+  os << "scale? ";
+  double scale;
+  is >> scale;
+  return new CosFunc(scale);
 }
 
