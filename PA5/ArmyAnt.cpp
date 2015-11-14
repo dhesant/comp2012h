@@ -4,7 +4,7 @@ ArmyAnt::ArmyAnt(Game* game, int player, int position): Animal(game,player,posit
   hp = MAX_HP;
   atk_damage = DEFAULT_ATK_DAMAGE;
   name = "Army Ant";
-  type = Type::ANT;
+  type = ANT;
 }
 
 ArmyAnt::~ArmyAnt() {

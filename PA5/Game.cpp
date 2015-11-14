@@ -175,7 +175,7 @@ void Game::start()
 int Game::countFlying(int player) {
   int count = 0;
   for (int i = 0; i < 5; ++i) {
-    if (animals[player][i]->getType() == Type::FLYING)
+    if (animals[player][i]->getType() == Animal::FLYING)
       count++;
   }
   return count;
@@ -184,7 +184,7 @@ int Game::countFlying(int player) {
 int Game::countSwimming(int player) {
   int count = 0;
   for (int i = 0; i < 5; ++i) {
-    if (animals[player][i]->getType() == Type::SWIMMING)
+    if (animals[player][i]->getType() == Animal::SWIMMING)
       count++;
   }
   return count;
@@ -193,7 +193,7 @@ int Game::countSwimming(int player) {
 int Game::countArmyAnt(int player) {
   int count = 0;
   for (int i = 0; i < 5; ++i) {
-    if (animals[player][i]->getType() == Type::ANT)
+    if (animals[player][i]->getType() == Animal::ANT)
       count++;
   }
   return count;

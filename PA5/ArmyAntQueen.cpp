@@ -4,7 +4,7 @@ ArmyAntQueen::ArmyAntQueen(Game* game, int player, int position): Animal(game,pl
   hp = MAX_HP;
   atk_damage = DEFAULT_ATK_DAMAGE;
   name = "Army Ant(Queen)";
-  type = Type::ANT;
+  type = ANT;
 }
 
 ArmyAntQueen::~ArmyAntQueen() {

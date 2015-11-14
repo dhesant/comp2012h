@@ -8,7 +8,7 @@ Animal::Animal(Game* game, int player, int position) {
   enemies = game->animals[!player];
   pos = position;
   is_dead = false;
-  type = Type::NORMAL;
+  type = NORMAL;
 }
 
 Animal::~Animal() {

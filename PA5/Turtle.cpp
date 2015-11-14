@@ -4,7 +4,7 @@ Turtle::Turtle(Game* game, int player, int position): Animal(game,player,positio
   hp = MAX_HP;
   atk_damage = DEFAULT_ATK_DAMAGE;
   name = "Turtle";
-  type = Type::SWIMMING;
+  type = SWIMMING;
 }
 
 Turtle::~Turtle() {

@@ -4,7 +4,7 @@ Bat::Bat(Game* game, int player, int position): Animal(game,player,position){
   hp = MAX_HP;
   atk_damage = DEFAULT_ATK_DAMAGE;
   name = "Bat";
-  type = Type::FLYING;
+  type = FLYING;
 }
 
 Bat::~Bat() {

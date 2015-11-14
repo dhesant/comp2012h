@@ -4,7 +4,7 @@ Dragon::Dragon(Game* game, int player, int position): Animal(game,player,positio
   hp = MAX_HP;
   atk_damage = DEFAULT_ATK_DAMAGE;
   name = "Dragon";
-  type = Type::FLYING;
+  type = FLYING;
 
 }
 

@@ -27,8 +27,4 @@ public:
 	int countArmyAnt(int player);
 };
 
-struct Type {
-  enum AnimalTypes { NORMAL, FLYING, SWIMMING, ANT };
-};
-
 #endif /* GAME_H_ */
