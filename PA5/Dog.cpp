@@ -4,7 +4,7 @@ Dog::Dog(Game* game, int player, int position): Animal(game,player,position){
   hp = MAX_HP;
   atk_damage = DEFAULT_ATK_DAMAGE;
   name = "Dog";
-
+  type = DOG;
 }
 
 Dog::~Dog() {
@@ -29,5 +29,12 @@ void Dog::attack()
 	    break;
 	  }
       }
+  }
+}
+
+void Dog::frenzy() {
+  if (!isDead()) {
+    for (int i = 0; i < 5; ++i)
+      enemies[i]->takeDamage(1);
   }
 }

@@ -40,6 +40,8 @@ void Hawk::defend(Animal* opponent, int damage) {
 }
 
 void Hawk::harass() {
-  for (int i = 0; i < 5; ++i)
-    enemies[i]->takeDamage(1);
+  if(!isDead()) {
+    for (int i = 0; i < 5; ++i)
+      enemies[i]->takeDamage(1);
+  }
 }

@@ -8,7 +8,7 @@ class Animal;
 class Game {
 public:
 	enum Player {P1 = 0, P2 = 1 };
-	enum AnimalIds {DOG, CAT, HAWK, BAT, TURTLE, SHARK, ARMY_ANT, ARMY_ANT_QUEEN, DRAGON };
+	enum AnimalIds {DOG, CAT, HAWK, BAT, TURTLE, SHARK, ARMY_ANT, ARMY_ANT_QUEEN, DRAGON, PHOENIX, CEREBUS };
 	Animal* animals[2][5];
 
 	Game(std::string file);
@@ -25,6 +25,8 @@ public:
 	int countFlying(int player);
 	int countSwimming(int player);
 	int countArmyAnt(int player);
+	int countDog(int player);
+	int countLegendary(int player);
 };
 
 #endif /* GAME_H_ */

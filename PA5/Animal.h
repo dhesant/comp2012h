@@ -16,19 +16,25 @@ class Animal {
   virtual void attack() = 0;
   virtual void defend(Animal* opponent, int damage);
 
-  void takeDamage(int damage);
+  virtual void takeDamage(int damage);
   void die();
   bool isDead() const;
   std::string getName() const;
   int getCurrentHP() const;
+  bool isLegendary() const;
 
-  // Special move functions
+  // Special moves
+  enum AnimalTypes { NORMAL, FLYING, SWIMMING, ANT, DOG };
+
   virtual void harass();
   virtual void summonTsunami();
   virtual void marchAndConquer();
   virtual void heal(int heal_amount);
   int getType() const;
-  enum AnimalTypes { NORMAL, FLYING, SWIMMING, ANT };
+
+  // Bonus
+  virtual void frenzy();
+  virtual void weatherTheStorm();
 
  protected:
   int hp;
@@ -43,6 +49,9 @@ class Animal {
 
   // Special move functions
   int type;
+
+  // Bonus Functions
+  bool is_legendary;
 };
 
 #endif /* ANIMAL_H_ */

@@ -11,6 +11,8 @@
 #include "ArmyAnt.h"
 #include "ArmyAntQueen.h"
 #include "Dragon.h"
+#include "Phoenix.h"
+#include "Cerebus.h"
 
 /*
  * Remember to include the header file of the animal classes here
@@ -66,6 +68,12 @@ void Game::load(std::string file)
 	  break;
 	case DRAGON:
 	  animals[c/5][c%5] = new Dragon(this, c/5, c%5);
+	  break;
+	case PHOENIX:
+	  animals[c/5][c%5] = new Phoenix(this, c/5, c%5);
+	  break;
+	case CEREBUS:
+	  animals[c/5][c%5] = new Cerebus(this, c/5, c%5);
 	  break;
 	}
 
@@ -138,6 +146,18 @@ void Game::start()
 	  animals[currentPlayer][i]->marchAndConquer();
       }
 
+      if (countDog(currentPlayer) >= 3) {
+	std::cout << "Player " << currentPlayer+1 << "'s Dogs have entered a frenzy." << std::endl;
+	for (int i = 0; i < 5; ++i)
+	  animals[currentPlayer][i]->frenzy();
+      }
+
+      if (countLegendary(currentPlayer) >= 3) {
+	std::cout << "Player " << currentPlayer+1 << "'s Legendary Creatures have kicked up a storm." << std::endl;
+	for (int i = 0; i < 5; ++i)
+	  animals[currentPlayer][i]->weatherTheStorm();
+      }
+
       //Output turn info
       cout << "Turn " << turnCount++ << " Player " << currentPlayer+1 << " attacks:" << endl;
       cout << "Player 1" << endl;
@@ -175,7 +195,7 @@ void Game::start()
 int Game::countFlying(int player) {
   int count = 0;
   for (int i = 0; i < 5; ++i) {
-    if (animals[player][i]->getType() == Animal::FLYING)
+    if (animals[player][i]->getType() == Animal::FLYING && !animals[player][i]->isDead())
       count++;
   }
   return count;
@@ -184,7 +204,7 @@ int Game::countFlying(int player) {
 int Game::countSwimming(int player) {
   int count = 0;
   for (int i = 0; i < 5; ++i) {
-    if (animals[player][i]->getType() == Animal::SWIMMING)
+    if (animals[player][i]->getType() == Animal::SWIMMING && !animals[player][i]->isDead())
       count++;
   }
   return count;
@@ -193,8 +213,25 @@ int Game::countSwimming(int player) {
 int Game::countArmyAnt(int player) {
   int count = 0;
   for (int i = 0; i < 5; ++i) {
-    if (animals[player][i]->getType() == Animal::ANT)
+    if (animals[player][i]->getType() == Animal::ANT && !animals[player][i]->isDead())
       count++;
   }
   return count;
 }
+
+int Game::countLegendary(int player) {
+  int count = 0;
+  for (int i = 0; i < 5; ++i)
+    count += (animals[player][i]->isLegendary() && !animals[player][i]->isDead());
+  return count;
+}
+
+int Game::countDog(int player) {
+  int count = 0;
+  for (int i = 0; i < 5; ++i) {
+    if (animals[player][i]->getType() == Animal::DOG && !animals[player][i]->isDead())
+      count++;
+  }
+  return count;
+}
+

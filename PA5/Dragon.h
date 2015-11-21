@@ -12,6 +12,7 @@ class Dragon: public Animal {
   virtual void defend(Animal* opponent, int damage);
 
   virtual void harass();
+  virtual void weatherTheStorm();
 
  private:
   static const int MAX_HP = 40;

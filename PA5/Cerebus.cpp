@@ -1,17 +1,18 @@
-#include "Shark.h"
+#include "Cerebus.h"
 
-Shark::Shark(Game* game, int player, int position): Animal(game,player,position){
+Cerebus::Cerebus(Game* game, int player, int position): Animal(game,player,position){
   hp = MAX_HP;
   atk_damage = DEFAULT_ATK_DAMAGE;
-  name = "Shark";
-  type = SWIMMING;
+  name = "Cerebus";
+  type = DOG;
+  is_legendary = true;
 }
 
-Shark::~Shark() {
+Cerebus::~Cerebus() {
 	
 }
 
-void Shark::attack()
+void Cerebus::attack()
 {
   if(!enemies[pos]->isDead())
     enemies[pos]->defend(this, atk_damage);
@@ -30,20 +31,18 @@ void Shark::attack()
 	  }
       }
   }
-
-  takeDamage(1);
 }
 
-void Shark::defend(Animal* opponent, int damage) {
-  takeDamage(damage);
-  if (!isDead())
-    opponent->takeDamage(2);
-}
-
-void Shark::summonTsunami() {
+void Cerebus::frenzy() {
   if (!isDead()) {
     for (int i = 0; i < 5; ++i)
       enemies[i]->takeDamage(2);
-    takeDamage(2);
   }
 }
+
+void Cerebus::weatherTheStorm() {
+  if (!isDead()) {
+    for (int i = 0; i < 5; ++i)
+      enemies[i]->takeDamage(3);
+  }
+}  

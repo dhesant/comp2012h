@@ -25,9 +25,11 @@ void ArmyAntQueen::defend(Animal* opponent, int damage) {
 }
 
 void ArmyAntQueen::marchAndConquer() {
-  for (int i = 0; i < 5; ++i) {
-    if (i != pos)
-      allies[i]->heal(2);
+  if (!isDead()) {
+    for (int i = 0; i < 5; ++i) {
+      if (i != pos)
+	allies[i]->heal(2);
+    }
   }
 }
 

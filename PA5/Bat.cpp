@@ -40,8 +40,10 @@ void Bat::defend(Animal* opponent, int damage) {
 }
 
 void Bat::harass() {
-  for (int i = 0; i < 5; ++i)
-    enemies[i]->takeDamage(1);
-  if (!isDead() && hp < MAX_HP)
-    hp++;
+  if (!isDead()) {
+    for (int i = 0; i < 5; ++i)
+      enemies[i]->takeDamage(1);
+    if (hp < MAX_HP)
+      hp++;
+  }
 }

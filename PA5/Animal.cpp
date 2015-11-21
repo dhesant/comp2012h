@@ -9,6 +9,7 @@ Animal::Animal(Game* game, int player, int position) {
   pos = position;
   is_dead = false;
   type = NORMAL;
+  is_legendary = false;
 }
 
 Animal::~Animal() {
@@ -59,5 +60,18 @@ void Animal::marchAndConquer() {
 }
 
 void Animal::heal(int heal_amount) {
+
+}
+
+// Bonus Functions
+bool Animal::isLegendary() const {
+  return is_legendary;
+}
+
+void Animal::frenzy() {
+
+}
+
+void Animal::weatherTheStorm() {
 
 }

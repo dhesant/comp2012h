@@ -5,7 +5,7 @@ Dragon::Dragon(Game* game, int player, int position): Animal(game,player,positio
   atk_damage = DEFAULT_ATK_DAMAGE;
   name = "Dragon";
   type = FLYING;
-
+  is_legendary = true;
 }
 
 Dragon::~Dragon() {
@@ -25,6 +25,15 @@ void Dragon::defend(Animal* opponent, int damage) {
 }
 
 void Dragon::harass() {
-  for (int i = 0; i < 5; ++i)
-    enemies[i]->takeDamage(2);
+  if (!isDead()) {
+    for (int i = 0; i < 5; ++i)
+      enemies[i]->takeDamage(2);
+  }
+}
+
+void Dragon::weatherTheStorm() {
+  if (!isDead()) {
+    for (int i = 0; i < 5; ++i)
+      enemies[i]->takeDamage(3);
+  }
 }

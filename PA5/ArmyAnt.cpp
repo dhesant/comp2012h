@@ -33,8 +33,9 @@ void ArmyAnt::attack()
 }
 
 void ArmyAnt::marchAndConquer() {
-  for (int i = 0; i < 5; ++i) {
-    enemies[i]->takeDamage(3);
+  if (!isDead()) {
+    for (int i = 0; i < 5; ++i)
+      enemies[i]->takeDamage(3);
   }    
 }
 

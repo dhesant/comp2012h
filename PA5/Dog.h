@@ -9,6 +9,7 @@ class Dog: public Animal {
   virtual ~Dog();
 
   virtual void attack();
+  virtual void frenzy();
 
  private:
   static const int MAX_HP = 30;
