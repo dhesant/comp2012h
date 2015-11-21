@@ -31,19 +31,23 @@ void Bat::attack()
       }
   }
 
+  // Heal itself 1 HP if below MAX_HP.
   if (!isDead() && hp < MAX_HP)
     hp++;
 }
 
 void Bat::defend(Animal* opponent, int damage) {
+  // Only take 80% damage.
   takeDamage(0.8*damage);
 }
 
 void Bat::harass() {
-  if (!isDead()) {
+  if (!isDead()) { // Ensure Bat isn't dead.
+    // Deal 1 unblockable damage to each enemy.
     for (int i = 0; i < 5; ++i)
       enemies[i]->takeDamage(1);
-    if (hp < MAX_HP)
+    // Heal itself 1 HP if below MAX_HP.
+    if (hp < MAX_HP) 
       hp++;
   }
 }

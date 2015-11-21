@@ -34,13 +34,16 @@ void Hawk::attack()
 }
 
 void Hawk::defend(Animal* opponent, int damage) {
+  //Hawks only take 70% damage.
   takeDamage(0.7*damage);
+  // Deal 1 unblockable damage as revenge
   if (!isDead())
     opponent->takeDamage(1);
 }
 
 void Hawk::harass() {
-  if(!isDead()) {
+  if(!isDead()) { // Ensure hawk is not dead.
+    // Deal 1 unblockable damange to each enemy.
     for (int i = 0; i < 5; ++i)
       enemies[i]->takeDamage(1);
   }

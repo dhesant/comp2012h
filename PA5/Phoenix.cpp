@@ -6,7 +6,7 @@ Phoenix::Phoenix(Game* game, int player, int position): Animal(game,player,posit
   name = "Phoenix";
   type = FLYING;
   is_legendary=true;
-  has_revived=false;
+  has_revived=false; // Revived status
 }
 
 Phoenix::~Phoenix() {
@@ -35,11 +35,13 @@ void Phoenix::attack()
 }
 
 void Phoenix::defend(Animal* opponent, int damage) {
+  // Phoenix only takes 80% damage cause it's flying.
   takeDamage(0.8*damage);
 }
 
 void Phoenix::harass() {
-  if (!isDead()) {
+  if (!isDead()) { // Ensure Phoenix isn't dead.
+    // Deal 1 unblockable damage to each enemy.
     for (int i = 0; i < 5; ++i)
       enemies[i]->takeDamage(1);
   }
@@ -48,8 +50,10 @@ void Phoenix::harass() {
 void Phoenix::takeDamage(int damage) {
   hp -=damage;
   if ( hp <= 0 ) {
+    // If the Phoenix has already revived, die.
     if ( has_revived )
       die();
+    // Otherwise, revive the Phoenix, and mark the status as revived.
     else {
       hp = MAX_HP;
       has_revived = true;
@@ -58,7 +62,8 @@ void Phoenix::takeDamage(int damage) {
 }
 
 void Phoenix::weatherTheStorm() {
-  if (!isDead()) {
+  if (!isDead()) { // Ensure Phoenix isn't dead.
+    // Deal 3 unblockable damange to each enemy.
     for (int i = 0; i < 5; ++i)
       enemies[i]->takeDamage(3);
   }

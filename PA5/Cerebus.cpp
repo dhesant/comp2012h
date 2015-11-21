@@ -34,14 +34,16 @@ void Cerebus::attack()
 }
 
 void Cerebus::frenzy() {
-  if (!isDead()) {
+  if (!isDead()) { // Ensure Cerebus isn't dead.
+    // Deal 2 unblockable damage to each enemy.
     for (int i = 0; i < 5; ++i)
       enemies[i]->takeDamage(2);
   }
 }
 
 void Cerebus::weatherTheStorm() {
-  if (!isDead()) {
+  if (!isDead()) { // Ensure Cerebus isn't dead.
+    // Deal 3 unblockable damage to each enemy.
     for (int i = 0; i < 5; ++i)
       enemies[i]->takeDamage(3);
   }

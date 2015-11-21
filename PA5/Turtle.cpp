@@ -33,11 +33,13 @@ void Turtle::attack()
 }
 
 void Turtle::defend(Animal* opponent, int damage) {
+  // Turtles only take half damange
   takeDamage(0.5*damage);
 }
 
 void Turtle::summonTsunami() {
-  if (!isDead()) {
+  if (!isDead()) { // Ensure turtle isn't dead
+    // Deal 1 unblockable damage to each enemy
     for (int i = 0; i < 5; ++i)
       enemies[i]->takeDamage(1);
   }

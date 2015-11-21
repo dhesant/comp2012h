@@ -31,19 +31,22 @@ void Shark::attack()
       }
   }
 
+  // Deal itself 1 damage.
   takeDamage(1);
 }
 
 void Shark::defend(Animal* opponent, int damage) {
   takeDamage(damage);
+  //  Deal 2 unblockable damage as revenge.
   if (!isDead())
     opponent->takeDamage(2);
 }
 
 void Shark::summonTsunami() {
-  if (!isDead()) {
+  if (!isDead()) { // Ensure shark isn't dead
+    // Deal 2 unblockable damage to each enemy.
     for (int i = 0; i < 5; ++i)
       enemies[i]->takeDamage(2);
-    takeDamage(2);
+    takeDamage(2); // Deal itself 1 damage.
   }
 }

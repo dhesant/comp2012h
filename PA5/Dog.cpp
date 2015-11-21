@@ -33,7 +33,8 @@ void Dog::attack()
 }
 
 void Dog::frenzy() {
-  if (!isDead()) {
+  if (!isDead()) { // Ensure Dog isn't dead.
+    // Deal 1 unblockable damage to each enemy.
     for (int i = 0; i < 5; ++i)
       enemies[i]->takeDamage(1);
   }

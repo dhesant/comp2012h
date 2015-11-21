@@ -33,15 +33,17 @@ void ArmyAnt::attack()
 }
 
 void ArmyAnt::marchAndConquer() {
-  if (!isDead()) {
+  if (!isDead()) { // Ensure Ant isn't dead.
+    // Deal 2 unblockable damage to each enemy.
     for (int i = 0; i < 5; ++i)
       enemies[i]->takeDamage(3);
   }    
 }
 
 void ArmyAnt::heal(int heal_amount) {
-  if (!isDead()) {
-    hp += heal_amount;
+  if (!isDead()) { // Ensure Ant isn't dead.
+    hp += heal_amount; // Heal by the heal_amount.
+    // Ensure HP is not over MAX_HP.
     if (hp > MAX_HP)
       hp = MAX_HP;
   }

@@ -11,6 +11,7 @@ Cat::~Cat() {
 }
 
 void Cat::attack() {
+  // If Cat has less than 13 health, damage is multiplied by 1.5.
   if (hp < 13)
     atk_damage = DEFAULT_ATK_DAMAGE * 1.5;
   else

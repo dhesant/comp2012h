@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 
+// Load all the necessary headerf files
 #include "Game.h"
 #include "Dog.h"
 #include "Cat.h"
@@ -14,10 +15,6 @@
 #include "Phoenix.h"
 #include "Cerebus.h"
 
-/*
- * Remember to include the header file of the animal classes here
- */
-
 using namespace std;
 
 Game::Game(std::string file) {
@@ -29,10 +26,6 @@ Game::~Game() {
     delete animals[i/5][i%5];
 }
 
-/**
- * You should instantiate the animal objects here
- * Please refer to the example of "Dog" 
- */
 void Game::load(std::string file)
 {
   ifstream in(file.c_str());
@@ -123,37 +116,39 @@ void Game::start()
 	    animals[currentPlayer][i]->attack();
 	}
 
-      /**
-       * To-Do 2: Codes for Special moves (if any) should be written here
-       * Hint: You should use dynamic binding, you may add data members/ functions in the Game class to help you implement this part
-       */
-      
+      // After the attack phase, check and run the special moves.
+
+      // Harass special move, requires >2 flying animals.
       if (countFlying(currentPlayer) > 2) {
-	std::cout << "Player " << currentPlayer+1 << " has harassed the other player." << std::endl;
+	std::cout << "Player " << currentPlayer+1 << " has harassed the other player." << std::endl; // Send message to cout for effect.
 	for (int i = 0; i < 5; ++i)
 	  animals[currentPlayer][i]->harass();
       }
       
+      // Summon Tsunami special move, requires >2 swimming animals.
       if (countSwimming(currentPlayer) > 2) {
-	std::cout << "Player " << currentPlayer+1 << " has summoned a Tsunami." << std::endl;
+	std::cout << "Player " << currentPlayer+1 << " has summoned a Tsunami." << std::endl; // Send message to cout for effect.
 	for (int i = 0; i < 5; ++i)
 	  animals[currentPlayer][i]->summonTsunami();
       }
       
+      // March and Conquer special move, requires 5 Ants.
       if (countArmyAnt(currentPlayer) >= 5) {
-	std::cout << "Player " << currentPlayer+1 << "'s Ant Army has marched and conquered." << std::endl;
+	std::cout << "Player " << currentPlayer+1 << "'s Ant Army has marched and conquered." << std::endl; // Send message to cout for effect.
 	for (int i = 0; i < 5; ++i)
 	  animals[currentPlayer][i]->marchAndConquer();
       }
 
-      if (countDog(currentPlayer) >= 3) {
-	std::cout << "Player " << currentPlayer+1 << "'s Dogs have entered a frenzy." << std::endl;
+      // Frenzy special move, requires >2 Dogs with at least 1 Cerebus.
+      if (countDog(currentPlayer) > 2) {
+	std::cout << "Player " << currentPlayer+1 << "'s Dogs have entered a frenzy." << std::endl; // Send message to cout for effect.
 	for (int i = 0; i < 5; ++i)
 	  animals[currentPlayer][i]->frenzy();
       }
 
-      if (countLegendary(currentPlayer) >= 3) {
-	std::cout << "Player " << currentPlayer+1 << "'s Legendary Creatures have kicked up a storm." << std::endl;
+      // Weather the storn special move, requires >2 legendary animals.
+      if (countLegendary(currentPlayer) > 2) {
+	std::cout << "Player " << currentPlayer+1 << "'s Legendary Animals have kicked up a storm." << std::endl; // Send message to cout for effect.
 	for (int i = 0; i < 5; ++i)
 	  animals[currentPlayer][i]->weatherTheStorm();
       }
@@ -192,6 +187,11 @@ void Game::start()
     }
 }			    
 
+/*
+ * Helper functions
+ */
+
+// Count flying animals using getType()
 int Game::countFlying(int player) {
   int count = 0;
   for (int i = 0; i < 5; ++i) {
@@ -201,6 +201,7 @@ int Game::countFlying(int player) {
   return count;
 }
 
+// Count swimming animals using getType()
 int Game::countSwimming(int player) {
   int count = 0;
   for (int i = 0; i < 5; ++i) {
@@ -210,6 +211,7 @@ int Game::countSwimming(int player) {
   return count;
 }
 
+// Count Ants using getType()
 int Game::countArmyAnt(int player) {
   int count = 0;
   for (int i = 0; i < 5; ++i) {
@@ -219,6 +221,7 @@ int Game::countArmyAnt(int player) {
   return count;
 }
 
+// Count legendary animals using getType()
 int Game::countLegendary(int player) {
   int count = 0;
   for (int i = 0; i < 5; ++i)
@@ -226,14 +229,17 @@ int Game::countLegendary(int player) {
   return count;
 }
 
+// Count dog animals using getType()
 int Game::countDog(int player) {
   int count = 0;
+  // Check to see whether there is at least one Cerebus.
   for (int i = 0; i < 5; ++i) {
     if (animals[player][i]->getName() == "Cerebus") {
       for (int j = 0; j < 5; ++j) {
 	if (animals[player][j]->getType() == Animal::DOG && !animals[player][j]->isDead())
 	  count++;
       }
+      // Return here to ensure that the loop does not repeat.
       return count;
     }
   }
