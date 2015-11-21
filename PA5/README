@@ -1,0 +1,113 @@
+/**********************************************************************
+*  README
+**********************************************************************/
+
+Name: Dhesant Jogi Nakka  
+Nickname or English name: Dhesant
+Major: ECE
+Course: COMP2012H
+Email address: djnakka@connect.ust.hk
+Programming assignment #: 5
+OS: Ubuntu 14.04
+Compiler: g++ 4.8.4
+Hours spent: 12
+
+/**********************************************************************
+*  List of included files
+**********************************************************************/
+Makefile		(Makefile)
+README			(Readme - this file)
+PA5.cpp			(Wrapper for Game.cpp to start)			
+Game.h, Game.cpp	(Main game source and header file)
+Animal.h, Animal.cpp	(Main animal source and header file)
+Dog.h, Dog.cpp		(Source and header files for Dog)
+Cat.h, Cat.cpp		(Source and header files for Cat)
+Hawk.h, Hawk.cpp	(Source and header files for Hawk)
+Bat.h, Bat.cpp		(Source and header files for Bat)
+Turtle.h, Turtle.cpp	(Source and header files for Turtle)
+Shark.h, Shark.cpp	(Source and header files for Shark)
+ArmyAnt.h, ArmyAnt.cpp	(Source and header files for Army Ant)
+ArmyAnyQueen.h, ArmyAnyQueen.cpp    (Source and header files for Army Ant (Queen))
+Dragon.h, Dragon.cpp	(Source and header files for Dragon)
+Phoenix.h, Phoenix.cpp	(Source and header files for Phoenix)
+Cerebus.h, Cerebus.cpp	(Source and header files for Cerebus)
+   
+/**********************************************************************
+*  Compilation Instructions
+**********************************************************************/
+The program can be compiled with the Makefile, which outputs to the executable 'animalgame'
+
+/**********************************************************************
+* Program sections that have been implemented
+**********************************************************************/
+The program implementes the following sections
+    - Core game functions (basic attack and defend behavior for Dog, Cat, Hawk, Bat, Turtle, Shark, Army Ant, Army Ant (Queen), and Dragon)
+    - Non-legendary special moves (Flying: Harass, Swimming: Summon Tsunami, Army Ants: March and Conquer)
+    - Legendary special creatures
+      - Phoenix (20 health, 4 damage, ability to revive, basic flying attributes (only 80% damange, harass)
+      - Cerebus (40 health, 5 damage)
+    - Legendary special moves (Dogs: Frenzy, Legendary Creatures: Weather The Storm)
+
+/**********************************************************************
+*  List whatever help (if any) that you received.
+**********************************************************************/
+I have sought help from the following people: N/A
+I have read the following books: N/A
+I have consulted the following websites: 
+www.cplusplus.com (for syntax of standard libraries)
+
+The work included in this program is all my own work (Y/N): Y
+
+/**********************************************************************
+*  Explain your overall approach and the unique features of your program
+**********************************************************************/
+The basic attack and defend behavior functions are created through the use of inheritance and polymorphisms. For animals with standard behavior, the default functions are inherited from the 'Animal' base class, while non-standard behavior is implemented as a polymorphism of the virtual functions inherited from the 'Animal' base class.
+
+To implement special moves, a few steps were taken to make it more readable, and easier to implement.
+   - An enum type is declared with the values of NORMAL, FLYING, SWIMMING, ANT, and DOG.
+   - Each animal is given an type field which recieves one of the enums defined above, usually NORMAL.
+   - Each animal is also given a 'is_legendary' boolean value, which is typically false, but is true for Dragon, Phoenix, and Cerebus.
+   - The 'Animal' base class implementes the following virtual functions for each special function.
+     - harass() (Flying: Harass)
+     - summonTsunami() (Swimming: Summon Tsuanmi)
+     - marchAndConquer() (Army Ant: March and Conquer)
+     - frenzy() (Dogs: Frenzy)
+     - weatherTheStorm (Legendary Creatures: weather the storm)
+     Each function is defined to be blank in the base class, with only the classes that require the function implementing the function.
+
+   - Count functions are implemented in 'Game.cpp' to count the number of animals of a certain type to check if the conditions for a special function are met.
+     - countFlying() to count flying animals.
+     - countSwimming() to count swimming animals.
+     - countArmyAnt() to count Army Ants.
+     - countDog() to count the number of dogs, and ensure there is at least one Cerebus.
+     - countLegendary() to count the number of legendary creatures.
+     The count functions make use of the type variable declared for each animal, as well as the is_legendary variable, to simplify the code.
+
+   - The game logic makes use of the count functions to determine whether the special functions should be called. Because the 'Animal' base class has virtual functions for each of the special functions, the game does not need to consider which type of animal is in which position, but instead calls the function for all animals on the player's side. Only the animals which are able to implement the special function (e.g. Turtles for summonTsunami()) then perform the required actions. This approach allows the game logic to be simplified highly, since it does not need to always check which animal is in which position when calling functions.
+
+   - Other notes
+     - To implement the Phoenix's revival function, the takeDamage function has become a virtual function which is overridden in the Phoneix class, using the 'has_revived' boolean variable to keep track.
+   
+
+/**********************************************************************
+*  Describe any serious problems your program has, or anything which
+*  you have not implemented successfully
+**********************************************************************/
+N/A
+
+/**********************************************************************
+*  State the input files you used to test your program
+**********************************************************************/
+game.txt (Input file to compare against example on course website)
+
+/**********************************************************************
+*  Known bugs / limitations of the program
+**********************************************************************/
+N/A
+
+/**********************************************************************
+*  List any other comments here. Feel free to provide any feedback   
+*  on how much you learned from doing the assignment, whether    
+*  you like the assignment or not, and how the assignment may be
+*  improved 
+**********************************************************************/

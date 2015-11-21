@@ -229,8 +229,13 @@ int Game::countLegendary(int player) {
 int Game::countDog(int player) {
   int count = 0;
   for (int i = 0; i < 5; ++i) {
-    if (animals[player][i]->getType() == Animal::DOG && !animals[player][i]->isDead())
-      count++;
+    if (animals[player][i]->getName() == "Cerebus") {
+      for (int j = 0; j < 5; ++j) {
+	if (animals[player][j]->getType() == Animal::DOG && !animals[player][j]->isDead())
+	  count++;
+      }
+      return count;
+    }
   }
   return count;
 }
