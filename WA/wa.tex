@@ -1,0 +1,191 @@
+\documentclass[11pt]{article}
+\usepackage{pst-qtree}
+\usepackage{listings}
+
+\title{COMP2012H Written Assignment}
+\author{Dhesant Nakka | 20146587}
+
+\lstset {
+  language=C++,
+  basicstyle=\footnotesize
+}
+
+\begin{document}
+\maketitle
+
+\section*{Question 1}
+Using two stacks, 'inbox' and 'outbox'. Stacks have the following functions; size(), isEmpty(), top(), push(data), pop().
+
+\begin{lstlisting}
+  bool isEmpty() {
+    pushToOutbox();
+    return outbox.isEmpty();
+  }
+
+  int size() {
+    pushToOutbox();
+    return outbox.size();
+  }
+
+  Object front() {
+    pushToOutbox();
+    return outbox.top();
+  }
+
+  void enqueue(Object data) {
+    inbox.push(data);
+  }
+
+  Object dequeue() {
+    pushToOutbox();
+    return outbox.pop();
+  }
+
+  void pushToOutbox() {
+    if (outbox.isEmpty()) {
+      while (!inbox.isEmpty()) {
+        outbox.push(inbox.pop());
+      }
+    }
+  }
+\end{lstlisting}
+
+\section*{Question 2}
+Q1 is used to store the data, and Q2 is used as a buffer.
+Queues have the following functions; size(), isEmpty(), front(), enqueue(data), dequeue().
+
+\begin{lstlisting}
+  bool isEmpty() {
+    return Q1.isEmpty();
+  }
+
+  int size() {
+    return Q1.size();
+  }
+
+  void push(Object data) {
+    Q1.enqueue(data);
+  }
+
+  Object pop() {
+    while(!Q1.isEmpty()) {
+      Q2.enqueue(Q1.dequeue());
+    }
+    Object o = Q2.dequeue();
+    while(!Q2.isEmpty()) {
+      Q1.enqueue(Q2.dequeue());
+    }
+    Return o;
+  }
+\end{lstlisting}
+
+\section*{Question 3}
+\begin{lstlisting}
+  bool findPairSum(int A[], int n, int k) {
+    return findPairSumHelper(A, 0, n, k);
+  }
+
+  bool findPairSumHelper(int A[], int i, int j, int k) {
+    if (i == j) {
+      return false;
+    }
+
+    else {
+      if ((A[i] + A[j]) < k) {
+        return findPairSumHelper(A, i+1, j, k);
+      }
+      else if ((A[i] + A[j]) > k {
+        return findPairSumHelper(A, i, j-1, k);
+      }
+      else {
+        return true;
+      }
+    }
+  }
+
+\end{lstlisting}
+
+\section*{Question 4}
+a) Final output is 7.\\
+b) Final output is 0.\\
+c) The program recursivly searches for the largest value in the array, and outputs the position index for the largest value in the array. If multiple copies of the largest value exists, the function returns the position index of the first of these values.
+
+\section*{Question 5}
+a) Output = 1010\\
+b) Output = 114\\
+c) The function converts the input from a Base 10 number to a Base m number.
+
+\section*{Question 6}
+
+\section*{Question 7}
+a) It is not possible for a preorder traversal of T to visit the nodes in the same order as the postorder traversal of T, because the preorder traversal will always travel to the root node first, while the postorder traversal will always travel to the root node last.\\
+b) It is possible for the a preorder traversal of T to visit the nodes in the reverse order of the postorder traversal. This can be done with a tree consisting of only two nodes. The preorder traversal will travel to the root node first, then the child node, while the postorder traversal will travel to the child node first, then the root node.
+\section*{Question 8}
+a) Preorder: 5, 4, 2, 1, 9, 6\\*
+Inorder: 4, 2, 5, 9, 1, 6\\*
+Postorder: 2, 4, 9, 6, 1, 5\\
+
+b) i)
+\Tree [.8 [.6 [.3 ]
+[.4 ]]
+[.5 [.1 ]
+[.2 ]]]
+
+ii) Postorder: 3, 4, 6, 1, 2, 5, 8
+
+c) 
+\begin{lstlisting}[showstringspaces=false]
+#include <iostream>
+
+int preorder[] = {8, 6, 3, 4, 5, 1, 2};
+int inorder[] = {3, 6, 4, 8, 1, 5, 2};
+
+int search (int A[], int x, int n) {
+  for (int i = 0; i < n; ++i) {
+    if (A[i] == x) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+void getPostOrder(int pre[], int in[], int n) {
+  int pos = search(in, pre[0], n);
+
+  if (pos != 0) {
+    getPostOrder(pre+1, in, pos);
+  }
+  
+  if (pos != n-1) {
+    getPostOrder(pre+pos+1, in+pos+1, n-pos-1);
+  }
+
+  std::cout << pre[0] << " ";
+}
+
+int main() {
+  getPostOrder(preorder, inorder, 7);
+  return 0;
+}
+\end{lstlisting}
+
+d)
+Tree 1:
+\Tree[.3 [.4 ]
+         [.2 [.1 [.5 ]
+                 [.{} ]]
+             [.{} ]]]
+
+Tree 2:
+\Tree[.3 [.4 ]
+         [.2 [.{} ]
+             [.1 [.{}
+                 [.5 ]]]]
+
+\section*{Question 9}
+
+\section*{Question 10}
+
+\section*{Question 11}
+
+\end{document}
